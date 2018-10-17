@@ -2,9 +2,11 @@
   <div class="tile">
     <div class="ui-g">
       <div class="ui-g-12">
-        <h1>{{query_id}}</h1>
+        <h1>Query: "{{query_id}}"</h1>
       </div>
     </div>
+    <hr>
+    <div style="text-align: left">
     <div class="ui-g">
       <div class="ui-g-3">
         <h3>Topic:</h3>
@@ -63,13 +65,13 @@
       <div class="ui-g-3">
         <h3>Timerange:</h3>
       </div>
-      <div class="ui-g-3">
-        <input id="start_year" type="text" pInputText [(ngModel)]="query.start_year"/>
+      <div style="display: flex;" class="ui-g-2">
+        <input style="vertical-align: bottom;" id="start_year" type="text" pInputText [(ngModel)]="query.start_year"/>
       </div>
-      <div class="ui-g-3">
+      <div class="ui-g-1">
         <h3> to </h3>
       </div>
-      <div class="ui-g-3">
+      <div style="display: flex;" class="ui-g-6">
         <input id="end_year" type="text" pInputText [(ngModel)]="query.end_year"/>
       </div>
     </div>
@@ -77,18 +79,24 @@
       <div class="ui-g-3">
         <h3>Actions:</h3>
       </div>
-      <div class="ui-g-3">
+      <div class="ui-g-2">
         <button pButton type="button" class="ui-button-danger" label="Save" icon="fa-save"
                 (click)="save()"></button>
       </div>
-      <div *ngIf="isQuerySaved"  class="ui-g-3">
-        <button pButton type="button" class="ui-button-danger" label="See Scopus search" icon="fa-run"
+      <div *ngIf="isQuerySaved"  class="ui-g-2">
+        <button pButton type="button" class="ui-button ui-button-danger" label="See Scopus search" icon="fa-run"
                 (click)="getScopusSearchString()"></button>
       </div>
-      <div *ngIf="isQuerySaved"  class="ui-g-3">
-        <button pButton type="button" class="ui-button-danger" label="run Query" icon="fa-forward"
+      <div *ngIf="isQuerySaved"  class="ui-g-2">
+        <button pButton type="button" class="ui-button-danger" label="run query" icon="fa-forward"
                 (click)="runQuery()"></button>
       </div>
+      <div *ngIf="isQueryRunning || hasQueryRun" class="ui-g-2">
+        <p *ngIf="status.total != 0 && isQueryRunning">processing {{status.progress}} of {{status.total}} publications </p>
+        <button *ngIf="hasQueryRun" pButton type="button" class="ui-button-danger" label="see results" icon="fa-forward"
+                [routerLink]="['/results', query_id]"></button>
+      </div>
+    </div>
     </div>
   </div>
 </div>

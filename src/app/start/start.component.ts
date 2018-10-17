@@ -13,6 +13,8 @@ export class StartComponent implements OnInit {
 
   query_ids: string[];
 
+  filteredQueries: string[];
+
   constructor( private fileservice: FileService) {
   }
 
@@ -20,5 +22,15 @@ export class StartComponent implements OnInit {
     this.fileservice.listQueries().subscribe(
       data => this.query_ids = data
     );
+  }
+
+  filterQueries(event) {
+    this.filteredQueries = [];
+    for (let i = 0; i < this.query_ids.length; i++) {
+      const testQuery = this.query_ids[i];
+      if (testQuery.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+        this.filteredQueries.push(testQuery);
+      }
+    }
   }
 }

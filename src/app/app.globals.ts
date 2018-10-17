@@ -10,6 +10,7 @@ export const checkEids = serverAddress + '/checkEids';
 export const listQueries = serverAddress + '/listQueries';
 export const saveQuery = serverAddress + '/saveQuery/';
 export const getQuery = serverAddress + '/getQuery/';
+export const statusUrl = serverAddress + '/getStatus/'
 export const runQueryUrl = serverAddress + '/query_execution/';
 export const getScopusSearchString = serverAddress + '/getScopusSearchString/';
 export const query_executionUrl = serverAddress + '/query_execution/';

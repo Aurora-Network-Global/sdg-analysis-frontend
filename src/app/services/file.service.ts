@@ -12,7 +12,7 @@ export class FileService {
     }
 
     downloadEids(query_id: string): Observable<FileWithLink> {
-      return this.http.get<FileWithLink>(appGlobals.downloadEidsURL + query_id + 'eids_list.txt');
+      return this.http.get<FileWithLink>(appGlobals.downloadEidsURL + query_id + '/eids_list.txt');
     }
 
     isEids(query_id: string): Observable<boolean> {

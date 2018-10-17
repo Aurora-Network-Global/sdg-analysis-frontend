@@ -4,6 +4,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Query} from '../model/Query';
 import * as appGlobals from '../app.globals';
 import {RunnerService} from '../services/runner.service';
+import {IntervalObservable} from 'rxjs/observable/IntervalObservable';
+import {Status} from '../model/Status';
 
 @Component({
   selector: 'app-queries',
@@ -21,6 +23,12 @@ export class QueriesComponent implements OnInit {
 
   hasQueryRun: boolean;
 
+  isQueryRunning: boolean;
+
+  timer: any;
+
+  status: Status;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private fileservice: FileService,
@@ -29,6 +37,7 @@ export class QueriesComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
+    this.status = null;
     this.isQuerySaved = false;
     this.hasQueryRun = false;
     this.route.params.subscribe(
@@ -60,8 +69,29 @@ export class QueriesComponent implements OnInit {
   }
 
   runQuery() {
-    this.runnerService.runQuery(this.query, this.query_id).subscribe(
-      data => this.hasQueryRun = true
+    this.isQueryRunning = true;
+    this.hasQueryRun = false;
+    this.runnerService.runQuery(this.query, this.query_id).subscribe();
+    this.timer = IntervalObservable.create(2000).subscribe(() =>   {
+      this.getStatus();
+    });
+  }
+
+  getStatus() {
+    this.runnerService.getStatus(this.query_id).subscribe(
+      data => {
+        this.status = data;
+      }
     );
+    if (this.status && !this.hasQueryRun) {
+      if (this.status.status === 'FINISHED') {
+        this.timer.unsubscribe();
+        this.isQueryRunning = false;
+        this.hasQueryRun = true;
+      } else if (this.status.status === 'ERROR') {
+        this.timer.unsubscribe();
+        this.isQueryRunning = false;
+      }
+    }
   }
 }

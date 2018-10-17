@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div *ngIf="!loading" class="container-fluid">
+  <div class="tile">
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <h1>Query: "{{query_id}}"</h1>
+      </div>
+    </div>
+    <hr>
+    <div class="ui-g">
+      <div class="ui-g-6">
+        <h2>List of keywords</h2>
+      </div>
+      <div class="ui-g-6">
+        <h2>EID list</h2>
+        <button pButton type="button" class="ui-button-success" label="Download list" (click)="downloadEids()"></button>
+        <h2>Upload Scival Data</h2>
+      <p-fileUpload name="scival-file" url="{{uploadUrl}}"></p-fileUpload>
+      </div>
+    </div>
+  </div>
+</div>

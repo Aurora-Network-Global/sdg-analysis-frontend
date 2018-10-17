@@ -4983,11 +4983,11 @@ a.badge:focus {
   margin-left: 3px;
 }
 .jumbotron {
-  min-height: 150px;
-  padding-top: 30px;
-  padding-bottom: 30px;
+  min-height: 100px;
+  padding: 30px;
   margin-bottom: 30px;
   color: #ffffff;
+  text-align: center;
 }
 .jumbotron h1,
 .jumbotron .h1 {
