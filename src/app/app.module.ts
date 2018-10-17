@@ -3,6 +3,13 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
+import {InputTextModule, MessagesModule} from 'primeng/primeng';
+import {ButtonModule} from 'primeng/button';
+import {HttpClientModule} from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
+import {appRouting} from './app.routing';
+import {FileService} from './services/file.service';
+import {RunnerService} from './services/runner.service';
 
 
 @NgModule({
@@ -10,9 +17,15 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
-    BrowserModule
+    ButtonModule,
+    InputTextModule,
+    MessagesModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserModule,
+    appRouting
   ],
-  providers: [],
+  providers: [HttpClientModule, FileService, RunnerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
