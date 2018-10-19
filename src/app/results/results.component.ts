@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import * as appGlobals from '../app.globals';
 import {ResultsService} from '../services/results.service';
 import {KeywordFrequency} from '../model/KeywordFrequency';
+import {RelevanceMeasures} from '../model/RelevanceMeasures';
 
 @Component({
   selector: 'app-results',
@@ -19,6 +20,8 @@ export class ResultsComponent implements OnInit {
 
   keywordFrequencyList: KeywordFrequency[];
 
+  relevanceMeasure: RelevanceMeasures;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private fileservice: FileService,
@@ -31,6 +34,9 @@ export class ResultsComponent implements OnInit {
       params => {
         this.query_id = params['query_id'];
         this.uploadUrl = appGlobals.uploadScivalDataUrl + this.query_id;
+        this.resultsService.getRelevanceMeasures(this.query_id).subscribe(
+          data => this.relevanceMeasure = data
+        );
         this.resultsService.getKeywords(this.query_id).subscribe(
           data => this.keywordFrequencyList = data
         );

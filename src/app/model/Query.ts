@@ -1,13 +1,13 @@
 export class Query {
 
   constructor(
-      private affiliation_id: string,
-      private author_id: string,
-      private author_name: string,
-      private subject: string,
-      private title: string,
-      private topic: string,
-      private start_year: string,
-      private end_year: string
+      public affiliation_id: string,
+      public author_id: string,
+      public author_name: string,
+      public subject: string,
+      public title: string,
+      public topic: string,
+      public start_year: string,
+      public end_year: string
   ) { }
 }

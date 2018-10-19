@@ -25,6 +25,35 @@
         </p-table>
       </div>
       <div class="ui-g-6">
+        <h2>Relevance Measures</h2>
+          <div class="ui-g">
+            <div class="ui-g-4">Number of search results: </div>
+            <div class="ui-g-4">{{relevanceMeasure.total_number_of_query_results}}</div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-4">Number of test entries: </div>
+            <div class="ui-g-4">{{relevanceMeasure.number_of_test_entries}}</div>
+          </div>
+          <div class="ui-g" *ngIf="relevanceMeasure.number_of_test_entries != 0">
+            <div class="ui-g-4">Number of true positives: </div>
+            <div class="ui-g-4">{{relevanceMeasure.true_positives}}</div>
+          </div>
+          <div class="ui-g" *ngIf="relevanceMeasure.number_of_test_entries != 0">
+            <div class="ui-g-4">Number of false negatives: </div>
+            <div class="ui-g-4">{{relevanceMeasure.false_negatives}}</div>
+          </div>
+          <div class="ui-g" *ngIf="relevanceMeasure.number_of_test_entries != 0">
+            <div class="ui-g-4">Number of false positives: </div>
+            <div class="ui-g-4">{{relevanceMeasure.false_positives}}</div>
+          </div>
+          <div class="ui-g" *ngIf="relevanceMeasure.number_of_test_entries != 0">
+            <div class="ui-g-4">Precision: </div>
+            <div class="ui-g-4">{{relevanceMeasure.precision}}</div>
+          </div>
+          <div class="ui-g" *ngIf="relevanceMeasure.number_of_test_entries != 0">
+            <div class="ui-g-4">Recall: </div>
+            <div class="ui-g-4">{{relevanceMeasure.recall}}</div>
+          </div>
         <h2>EID list</h2>
         <button pButton type="button" class="ui-button-success" label="Download list" (click)="downloadEids()"></button>
         <h2>Upload Scival Data</h2>

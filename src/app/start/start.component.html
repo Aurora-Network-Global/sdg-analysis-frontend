@@ -14,8 +14,6 @@
     <div class="ui-g-6">
       <div class="tile">
         <h2>Continue with query</h2>
-        <!-- <p-autoComplete [(ngModel)]="query_id" [suggestions]="filteredQueries" (completeMethod)="filterQueries($event)" [size]="30"
-                        [minLength]="1" placeholder="Hint: start typing" [dropdown]="true"></p-autoComplete> -->
         <select id="query_id" [(ngModel)]="query_id" class="form-control">
           <option *ngFor="let m of query_ids" value="{{m}}">{{m}}</option>
         </select>
