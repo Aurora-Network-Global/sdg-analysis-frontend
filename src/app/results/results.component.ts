@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FileService} from '../services/file.service';
-import {RunnerService} from '../services/runner.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as appGlobals from '../app.globals';
+import {ResultsService} from '../services/results.service';
+import {KeywordFrequency} from '../model/KeywordFrequency';
 
 @Component({
   selector: 'app-results',
@@ -16,12 +17,12 @@ export class ResultsComponent implements OnInit {
 
   uploadUrl: string;
 
-  linkToEids: string;
+  keywordFrequencyList: KeywordFrequency[];
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private fileservice: FileService,
-              private runnerService: RunnerService) {
+              private resultsService: ResultsService) {
   }
 
   ngOnInit() {
@@ -30,9 +31,9 @@ export class ResultsComponent implements OnInit {
       params => {
         this.query_id = params['query_id'];
         this.uploadUrl = appGlobals.uploadScivalDataUrl + this.query_id;
-        this.fileservice.downloadEids(this.query_id).subscribe(
-          data => this.linkToEids = data.link
-        )
+        this.resultsService.getKeywords(this.query_id).subscribe(
+          data => this.keywordFrequencyList = data
+        );
         this.loading = false;
       }
     );

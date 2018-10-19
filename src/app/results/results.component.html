@@ -9,6 +9,20 @@
     <div class="ui-g">
       <div class="ui-g-6">
         <h2>List of keywords</h2>
+        <p-table [value]="keywordFrequencyList" [paginator]="true" [rows]="20">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Keyword</th>
+              <th [pSortableColumn]="'count'">Count</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-keyword>
+            <tr>
+              <td>{{keyword.keyword}}</td>
+              <td>{{keyword.count}}</td>
+            </tr>
+          </ng-template>
+        </p-table>
       </div>
       <div class="ui-g-6">
         <h2>EID list</h2>
