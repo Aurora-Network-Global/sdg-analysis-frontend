@@ -1,6 +1,6 @@
 import {HttpHeaders} from '@angular/common/http';
 
-const serverAddress = 'http://localhost:5000';
+const serverAddress = '/queryExecution';
 
 export const uploadScivalDataUrl = serverAddress + '/uploadScivalData/';
 export const uploadTestDataUrl = serverAddress + '/uploadTestData/';
