@@ -10,6 +10,7 @@ import {FormsModule} from '@angular/forms';
 import {appRouting} from './app.routing';
 import {FileService} from './services/file.service';
 import {RunnerService} from './services/runner.service';
+import {ResultsService} from './services/results.service';
 
 
 @NgModule({
@@ -25,7 +26,7 @@ import {RunnerService} from './services/runner.service';
     BrowserModule,
     appRouting
   ],
-  providers: [HttpClientModule, FileService, RunnerService],
+  providers: [HttpClientModule, FileService, RunnerService, ResultsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

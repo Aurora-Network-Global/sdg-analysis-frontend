@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {FileWithLink} from '../model/FileWithLink';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient} from '@angular/common/http';
 import * as appGlobals from '../app.globals';
@@ -9,10 +8,6 @@ import {Query} from '../model/Query';
 export class FileService {
 
     constructor(private http: HttpClient) {
-    }
-
-    downloadEids(query_id: string): Observable<FileWithLink> {
-      return this.http.get<FileWithLink>(appGlobals.downloadEidsURL + query_id + '/eids_list.txt');
     }
 
     isEids(query_id: string): Observable<boolean> {
