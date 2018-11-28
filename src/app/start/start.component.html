@@ -3,6 +3,7 @@
     <div class="ui-g-6">
       <div class="tile">
         <h2>New query</h2>
+        <p>Type in a short title for the query.</p>
         <span class="ui-float-label">
         <input id="username-input" type="text" size="30" pInputText [(ngModel)]="new_query_id"
                [ngModelOptions]="{standalone: true}" autofocus class="form-control">
@@ -14,6 +15,7 @@
     <div class="ui-g-6">
       <div class="tile">
         <h2>Continue with query</h2>
+        <p>Select one of the already defined queries</p>
         <select id="query_id" [(ngModel)]="query_id" class="form-control">
           <option *ngFor="let m of query_ids" value="{{m}}">{{m}}</option>
         </select>

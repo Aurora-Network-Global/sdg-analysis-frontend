@@ -92,7 +92,7 @@
                   (click)="save()"></button>
         </div>
         <div class="ui-g-2">
-          <button [disabled]="!hasQueryRun" pButton type="button" class="ui-button ui-button-danger" label="See Scopus search" icon="fa-run"
+          <button [disabled]="!isQuerySaved" pButton type="button" class="ui-button ui-button-danger" label="See Scopus search" icon="fa-run"
                   (click)="getScopusSearchString()"></button>
         </div>
         <div class="ui-g-2">
