@@ -3,7 +3,7 @@ import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {QueriesComponent} from './queries.component';
-import {FileUploadModule, InputTextareaModule, InputTextModule} from 'primeng/primeng';
+import {FileUploadModule, InputTextareaModule, InputTextModule, ProgressBarModule} from 'primeng/primeng';
 import {queriesRouting} from './queries.routing';
 import {ButtonModule} from 'primeng/button';
 
@@ -16,6 +16,7 @@ import {ButtonModule} from 'primeng/button';
     InputTextModule,
     ButtonModule,
     FileUploadModule,
+    ProgressBarModule,
   queriesRouting],
   declarations: [QueriesComponent],
   exports: [QueriesComponent],

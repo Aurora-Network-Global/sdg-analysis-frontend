@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {FileService} from '../services/file.service';
+import {Project} from '../model/Project';
+import {ProjectService} from '../services/project.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-start',
@@ -7,18 +9,32 @@ import {FileService} from '../services/file.service';
 })
 export class StartComponent implements OnInit {
 
-  query_id: string;
+  new_project: string;
 
-  new_query_id: string;
+  projects: Project[];
 
-  query_ids: string[];
+  busy: boolean;
 
-  constructor( private fileservice: FileService) {
+  constructor( private router: Router,
+               public projectService: ProjectService) {
   }
 
   ngOnInit() {
-    this.fileservice.listQueries().subscribe(
-      data => this.query_ids = data
+    this.busy = true;
+    this.projectService.listProjects().subscribe(
+      data => {
+        this.projects = data;
+        this.busy = false;
+        if (this.projects.length > 0) {
+          this.projectService.activeProject = this.projects[0];
+        }
+      }
     );
+  }
+
+  createProject() {
+    this.projectService.activeProject = new Project(this.new_project, new Date().getTime().toString());
+    this.projectService.saveActiveProject().subscribe(
+      () =>  this.router.navigate(['/queries', this.projectService.activeProject.project_id]));
   }
 }

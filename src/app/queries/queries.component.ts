@@ -6,6 +6,7 @@ import * as appGlobals from '../app.globals';
 import {RunnerService} from '../services/runner.service';
 import {IntervalObservable} from 'rxjs/observable/IntervalObservable';
 import {Status} from '../model/Status';
+import {ProjectService} from '../services/project.service';
 
 @Component({
   selector: 'app-queries',
@@ -19,10 +20,6 @@ export class QueriesComponent implements OnInit {
 
   loading: boolean;
 
-  isQuerySaved: boolean;
-
-  hasQueryRun: boolean;
-
   isQueryRunning: boolean;
 
   timer: any;
@@ -31,8 +28,11 @@ export class QueriesComponent implements OnInit {
 
   uploadUrl: string;
 
+  progress: number;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
+              public projectService: ProjectService,
               private fileservice: FileService,
               private runnerService: RunnerService) {
   }
@@ -40,15 +40,15 @@ export class QueriesComponent implements OnInit {
   ngOnInit() {
     this.loading = true;
     this.status = null;
-    this.isQuerySaved = false;
-    this.hasQueryRun = false;
     this.route.params.subscribe(
       params => {
         this.query_id = params['query_id'];
+        if (this.projectService.activeProject == null) {
+          this.projectService.getproject(this.query_id).subscribe(
+            data => this.projectService.activeProject = data
+          );
+        }
         this.uploadUrl = appGlobals.uploadTestDataUrl + this.query_id;
-        this.fileservice.isEids(this.query_id).subscribe(
-          data => this.hasQueryRun = data
-        );
         this.fileservice.getQuery(this.query_id).subscribe(
           data => {
             this.query = data;
@@ -60,11 +60,11 @@ export class QueriesComponent implements OnInit {
   }
 
   save() {
-    console.log(this.query);
     this.fileservice.saveQuery(this.query, this.query_id).subscribe(
       data => {
         this.query = data;
-        this.isQuerySaved = true;
+        this.projectService.activeProject.is_query_defined = true;
+        this.projectService.saveActiveProject().subscribe(project => this.projectService.activeProject = project);
       }
     );
   }
@@ -75,8 +75,9 @@ export class QueriesComponent implements OnInit {
   }
 
   runQuery() {
+    this.save();
     this.isQueryRunning = true;
-    this.hasQueryRun = false;
+    this.projectService.activeProject.is_query_run = false;
     this.runnerService.runQuery(this.query, this.query_id).subscribe();
     this.timer = IntervalObservable.create(2000).subscribe(() => {
       this.getStatus();
@@ -89,11 +90,16 @@ export class QueriesComponent implements OnInit {
         this.status = data;
       }
     );
-    if (this.status && !this.hasQueryRun) {
+    if (this.status && !this.projectService.activeProject.is_query_run) {
+      if (this.status.progress && this.status.total){
+        this.progress = Math.round(this.status.progress / this.status.total * 100);
+      } else {
+        this.progress = 0;
+      }
       if (this.status.status === 'FINISHED') {
         this.timer.unsubscribe();
         this.isQueryRunning = false;
-        this.hasQueryRun = true;
+        this.projectService.activeProject.is_query_run = true;
       } else if (this.status.status === 'ERROR') {
         this.timer.unsubscribe();
         this.isQueryRunning = false;

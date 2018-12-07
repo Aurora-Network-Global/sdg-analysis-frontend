@@ -3,6 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {HttpClient} from '@angular/common/http';
 import * as appGlobals from '../app.globals';
 import {Query} from '../model/Query';
+import {Project} from '../model/Project';
 
 @Injectable()
 export class FileService {
@@ -16,10 +17,6 @@ export class FileService {
 
     isScival(query_id: string): Observable<boolean> {
       return this.http.get<boolean>(appGlobals.checkScival + query_id);
-    }
-
-    listQueries(): Observable<string[]> {
-      return this.http.get<string[]>(appGlobals.listQueries);
     }
 
     saveQuery(query: Query, query_id: string): Observable<Query> {

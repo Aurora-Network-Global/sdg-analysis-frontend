@@ -2,7 +2,7 @@
   <div class="tile">
     <div class="ui-g">
       <div class="ui-g-12">
-        <h1>Query: "{{query_id}}"</h1>
+        <h1>Query: "{{projectService.activeProject.name}}"</h1>
       </div>
     </div>
     <hr>
@@ -92,19 +92,27 @@
                   (click)="save()"></button>
         </div>
         <div class="ui-g-2">
-          <button [disabled]="!isQuerySaved" pButton type="button" class="ui-button ui-button-danger" label="See Scopus search" icon="fa-run"
+          <button [disabled]="!projectService.activeProject.is_query_defined" pButton type="button"
+                  class="ui-button ui-button-danger" label="See Scopus search" icon="fa-run"
                   (click)="getScopusSearchString()"></button>
         </div>
         <div class="ui-g-2">
-          <button [disabled]="!isQuerySaved" pButton type="button" class="ui-button-danger" label="run query" icon="fa-forward"
+          <button [disabled]="!projectService.activeProject.is_query_defined" pButton type="button"
+                  class="ui-button-danger" label="run query" icon="fa-forward"
                   (click)="runQuery()"></button>
         </div>
-        <div *ngIf="isQueryRunning" class="ui-g-2">
+        <div *ngIf="isQueryRunning" class="ui-g">
+          <div class="ui-g-12">
+            <p-progressBar [value]="progress"></p-progressBar>
+          </div>
+          <div class="ui-g">
           <p *ngIf="status.total != 0 && isQueryRunning">processing {{status.progress}} of {{status.total}}
             publications </p>
+          </div>
         </div>
         <div class="ui-g-2">
-          <button [disabled]="!hasQueryRun" pButton type="button" class="ui-button-danger" label="see results"
+          <button [disabled]="!projectService.activeProject.is_query_run" pButton type="button" class="ui-button-danger"
+                  label="see results"
                   icon="fa-forward"
                   [routerLink]="['/results', query_id]"></button>
         </div>

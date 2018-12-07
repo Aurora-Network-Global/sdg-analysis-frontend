@@ -5,6 +5,7 @@ import * as appGlobals from '../app.globals';
 import {ResultsService} from '../services/results.service';
 import {KeywordFrequency} from '../model/KeywordFrequency';
 import {RelevanceMeasures} from '../model/RelevanceMeasures';
+import {ProjectService} from '../services/project.service';
 
 @Component({
   selector: 'app-results',
@@ -24,7 +25,7 @@ export class ResultsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private fileservice: FileService,
+              public projectService: ProjectService,
               private resultsService: ResultsService) {
   }
 

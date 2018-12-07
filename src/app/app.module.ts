@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
-import {InputTextModule, MessagesModule} from 'primeng/primeng';
+import {DropdownModule, InputTextModule, MessagesModule} from 'primeng/primeng';
 import {ButtonModule} from 'primeng/button';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
@@ -11,6 +11,8 @@ import {appRouting} from './app.routing';
 import {FileService} from './services/file.service';
 import {RunnerService} from './services/runner.service';
 import {ResultsService} from './services/results.service';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ProjectService} from './services/project.service';
 
 
 @NgModule({
@@ -24,9 +26,11 @@ import {ResultsService} from './services/results.service';
     FormsModule,
     HttpClientModule,
     BrowserModule,
+    DropdownModule,
+    BrowserAnimationsModule,
     appRouting
   ],
-  providers: [HttpClientModule, FileService, RunnerService, ResultsService],
+  providers: [HttpClientModule, FileService, RunnerService, ResultsService, ProjectService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
