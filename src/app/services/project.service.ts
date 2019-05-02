@@ -9,7 +9,7 @@ export class ProjectService {
 
   public activeProject: Project;
 
-  private projectUrl = appGlobals.serverAddress + 'project';
+  private projectUrl = appGlobals.serverAddress + '/project';
 
   constructor(private http: HttpClient) {
   }
