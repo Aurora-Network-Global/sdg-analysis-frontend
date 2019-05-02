@@ -44,7 +44,7 @@ export class QueriesComponent implements OnInit {
       params => {
         this.query_id = params['query_id'];
         if (this.projectService.activeProject == null) {
-          this.projectService.getproject(this.query_id).subscribe(
+          this.projectService.getProject(this.query_id).subscribe(
             data => this.projectService.activeProject = data
           );
         }
@@ -91,7 +91,7 @@ export class QueriesComponent implements OnInit {
       }
     );
     if (this.status && !this.projectService.activeProject.is_query_run) {
-      if (this.status.progress && this.status.total){
+      if (this.status.progress && this.status.total) {
         this.progress = Math.round(this.status.progress / this.status.total * 100);
       } else {
         this.progress = 0;

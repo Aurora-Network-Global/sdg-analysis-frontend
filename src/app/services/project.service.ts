@@ -18,8 +18,8 @@ export class ProjectService {
     return this.http.get<Project[]>(this.projectUrl + '/all');
   }
 
-  getproject(project_id: string): Observable<Project> {
-    return this.http.get<Project>(this.projectUrl + '/' + project_id);
+  getProject(project_id: string): Observable<Project> {
+    return this.http.get<Project>(this.projectUrl + '/single/' + project_id);
   }
 
   saveActiveProject(): Observable<Project> {
