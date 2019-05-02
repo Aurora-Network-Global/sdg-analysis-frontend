@@ -22,10 +22,10 @@ export class FileService {
     }
 
     saveQuery(query: Query, query_id: string): Observable<Query> {
-      return this.http.post<Query>(appGlobals.queryUrl + query_id, JSON.stringify(query), {headers: appGlobals.headers});
+      return this.http.post<Query>(appGlobals.queryUrl + 'single/' + query_id, JSON.stringify(query), {headers: appGlobals.headers});
     }
 
     getQuery(query_id: string): Observable<Query> {
-      return this.http.get<Query>(appGlobals.queryUrl + query_id);
+      return this.http.get<Query>(appGlobals.queryUrl + 'single/' + query_id);
     }
 }
