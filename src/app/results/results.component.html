@@ -54,8 +54,10 @@
             <div class="ui-g-4">Recall: </div>
             <div class="ui-g-4">{{relevanceMeasure.recall}}</div>
           </div>
-        <h2>EID list</h2>
+        <h2>EID lists</h2>
         <button pButton type="button" class="ui-button-success" label="Download list" (click)="downloadEids()"></button>
+        <button pButton type="button" class="ui-button-success" label="Download sample list" (click)="downloadSampleEids()"></button>
+        <button pButton type="button" class="ui-button-success" label="Download missed list" (click)="downloadMissedEids()"></button>
         <h2>Upload Scival Data</h2>
       <p-fileUpload name="scival-file" url="{{uploadUrl}}"></p-fileUpload>
       </div>

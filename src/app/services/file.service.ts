@@ -11,8 +11,10 @@ export class FileService {
     constructor(private http: HttpClient) {
     }
 
+    private eidsUrl = appGlobals.serverAddress + '/eids';
+
     isEids(query_id: string): Observable<boolean> {
-      return this.http.get<boolean>(appGlobals.checkEids + query_id);
+      return this.http.get<boolean>(this.eidsUrl + '/check/' + query_id);
     }
 
     isScival(query_id: string): Observable<boolean> {
@@ -20,10 +22,10 @@ export class FileService {
     }
 
     saveQuery(query: Query, query_id: string): Observable<Query> {
-      return this.http.post<Query>(appGlobals.saveQuery + query_id, JSON.stringify(query), {headers: appGlobals.headers});
+      return this.http.post<Query>(appGlobals.queryUrl + query_id, JSON.stringify(query), {headers: appGlobals.headers});
     }
 
     getQuery(query_id: string): Observable<Query> {
-      return this.http.get<Query>(appGlobals.getQuery + query_id);
+      return this.http.get<Query>(appGlobals.queryUrl + query_id);
     }
 }

@@ -1,18 +1,14 @@
 import {HttpHeaders} from '@angular/common/http';
 
-const serverAddress = '/queryExecution';
+export const serverAddress = '/queryExecution';
 
-export const uploadScivalDataUrl = serverAddress + '/uploadScivalData/';
-export const uploadTestDataUrl = serverAddress + '/uploadTestData/';
-export const checkScival = serverAddress + '/checkScival/';
-export const downloadEidsURL = serverAddress + '/downloadEids/';
-export const checkEids = serverAddress + '/checkEids/';
-export const projects = serverAddress + '/projects';
-export const saveQuery = serverAddress + '/saveQuery/';
-export const getQuery = serverAddress + '/getQuery/';
-export const statusUrl = serverAddress + '/getStatus/';
-export const keywordsUrl = serverAddress + '/getKeywords/';
-export const relevanceMeasuresUrl = serverAddress + '/getRelevanceMeasures/';
-export const runQueryUrl = serverAddress + '/query_execution/';
-export const getScopusSearchString = serverAddress + '/getScopusSearchString/';
+export const uploadScivalDataUrl = serverAddress + '/scival/single/';
+export const uploadTestDataUrl = serverAddress + '/eids/test/';
+export const checkScival = serverAddress + '/scival/check/';
+export const queryUrl = serverAddress + '/query/';
+export const statusUrl = serverAddress + '/status/single/';
+export const keywordsUrl = serverAddress + '/keywords/';
+export const relevanceMeasuresUrl = serverAddress + '/relevanceMeasures/single';
+export const runQueryUrl = serverAddress + '/query/execution/';
+export const getScopusSearchString = serverAddress + '/query/scopusSearchString/';
 export const headers = new HttpHeaders().set('Content-Type', 'application/json');

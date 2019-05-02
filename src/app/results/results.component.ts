@@ -19,6 +19,8 @@ export class ResultsComponent implements OnInit {
 
   uploadUrl: string;
 
+  eidsUrl = appGlobals.serverAddress + '/eids';
+
   keywordFrequencyList: KeywordFrequency[];
 
   relevanceMeasure: RelevanceMeasures;
@@ -47,6 +49,14 @@ export class ResultsComponent implements OnInit {
   }
 
   downloadEids() {
-    window.open(appGlobals.downloadEidsURL + this.query_id, '_blank');
+    window.open(this.eidsUrl + '/all/' + this.query_id, '_blank');
+  }
+
+  downloadMissedEids() {
+    window.open(this.eidsUrl + '/missed/' + this.query_id, '_blank');
+  }
+
+  downloadSampleEids() {
+    window.open(this.eidsUrl + '/calculateSample/' + this.query_id, '_blank');
   }
 }
