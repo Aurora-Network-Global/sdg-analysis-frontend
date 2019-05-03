@@ -7,6 +7,21 @@
     </div>
     <hr>
     <div class="ui-g">
+      <div class="ui-g-6">
+        <h2>EID lists</h2>
+        <div class="ui-g-3">
+        <button pButton type="button" class="ui-button-success" label="Download complete list" (click)="downloadEids()"></button>
+        </div>
+        <div class="ui-g-3">
+        <button pButton type="button" class="ui-button-success" label="Download missed list" (click)="downloadMissedEids()"></button>
+        </div>
+        <div class="ui-g-6">
+        <div class="ui-inputgroup">
+          <input type="text" pInputText placeholder="Sample Size" style="background-color: transparent;" [(ngModel)]="sampleSize">
+          <button pButton type="button" class="ui-button-success" label="Download sample list" (click)="downloadSampleEids()"></button>
+        </div>
+        </div>
+      </div>
       <div *ngIf="keywordFrequencyList" class="ui-g-6">
         <h2>List of keywords</h2>
         <p-table [value]="keywordFrequencyList" [paginator]="true" [rows]="20">
@@ -56,10 +71,8 @@
             <div class="ui-g-4">{{relevanceMeasure.recall}}</div>
           </div>
         </div>
-        <h2>EID lists</h2>
-        <button pButton type="button" class="ui-button-success" label="Download list" (click)="downloadEids()"></button>
-        <button pButton type="button" class="ui-button-success" label="Download sample list" (click)="downloadSampleEids()"></button>
-        <button pButton type="button" class="ui-button-success" label="Download missed list" (click)="downloadMissedEids()"></button>
+
+
         <h2>Upload Scival Data</h2>
       <p-fileUpload name="scival-file" url="{{uploadUrl}}"></p-fileUpload>
       </div>

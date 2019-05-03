@@ -4,7 +4,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ResultsComponent} from './results.component';
 import {resultsRouting} from './results.routing';
-import {FileUploadModule} from 'primeng/primeng';
+import {FileUploadModule, SpinnerModule} from 'primeng/primeng';
 import {TableModule} from 'primeng/table';
 
 @NgModule({
@@ -13,6 +13,7 @@ import {TableModule} from 'primeng/table';
     CommonModule,
     FormsModule,
     FileUploadModule,
+    SpinnerModule,
     TableModule,
   resultsRouting],
   declarations: [ResultsComponent],

@@ -19,6 +19,8 @@ export class ResultsComponent implements OnInit {
 
   uploadUrl: string;
 
+  sampleSize = '100';
+
   eidsUrl = appGlobals.serverAddress + '/eids';
 
   keywordFrequencyList: KeywordFrequency[];
@@ -36,6 +38,14 @@ export class ResultsComponent implements OnInit {
     this.route.params.subscribe(
       params => {
         this.query_id = params['query_id'];
+        if (this.projectService.activeProject == null) {
+          this.projectService.getProject(this.query_id).subscribe(
+            data => {
+              this.projectService.activeProject = data;
+              this.loading = false;
+            }
+          );
+        }
         this.uploadUrl = appGlobals.uploadScivalDataUrl + this.query_id;
         this.resultsService.getRelevanceMeasures(this.query_id).subscribe(
           data => this.relevanceMeasure = data
@@ -43,7 +53,7 @@ export class ResultsComponent implements OnInit {
         this.resultsService.getKeywords(this.query_id).subscribe(
           data => this.keywordFrequencyList = data
         );
-        this.loading = false;
+
       }
     );
   }
@@ -57,6 +67,6 @@ export class ResultsComponent implements OnInit {
   }
 
   downloadSampleEids() {
-    window.open(this.eidsUrl + '/calculateSample/' + this.query_id, '_blank');
+    window.open(this.eidsUrl + '/calculateSample/' + this.query_id + '?sample_size=' + this.sampleSize, '_blank');
   }
 }
