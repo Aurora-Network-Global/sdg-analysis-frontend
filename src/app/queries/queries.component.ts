@@ -20,7 +20,7 @@ export class QueriesComponent implements OnInit {
 
   loading: boolean;
 
-  isQueryRunning: boolean;
+  isQueryRunning = false;
 
   timer: any;
 
@@ -45,7 +45,12 @@ export class QueriesComponent implements OnInit {
         this.query_id = params['query_id'];
         if (this.projectService.activeProject == null) {
           this.projectService.getProject(this.query_id).subscribe(
-            data => this.projectService.activeProject = data
+            data => {
+              this.projectService.activeProject = data;
+              if (this.projectService.activeProject.is_query_defined) {
+                this.getStatus();
+              }
+            }
           );
         }
         this.uploadUrl = appGlobals.uploadTestDataUrl + this.query_id;
@@ -63,9 +68,17 @@ export class QueriesComponent implements OnInit {
     this.fileservice.saveQuery(this.query, this.query_id).subscribe(
       data => {
         this.query = data;
-        this.projectService.activeProject.is_query_defined = true;
-        this.projectService.saveActiveProject().subscribe(project => this.projectService.activeProject = project);
+        if (!this.projectService.activeProject.is_query_defined) {
+          this.projectService.activeProject.is_query_defined = true;
+          this.saveProject();
+        }
       }
+    );
+  }
+
+  saveProject() {
+    this.projectService.saveActiveProject().subscribe(
+      project => this.projectService.activeProject = project
     );
   }
 
@@ -77,7 +90,6 @@ export class QueriesComponent implements OnInit {
   runQuery() {
     this.save();
     this.isQueryRunning = true;
-    this.projectService.activeProject.is_query_run = false;
     this.runnerService.runQuery(this.query, this.query_id).subscribe();
     this.timer = IntervalObservable.create(2000).subscribe(() => {
       this.getStatus();
@@ -86,9 +98,8 @@ export class QueriesComponent implements OnInit {
 
   getStatus() {
     this.runnerService.getStatus(this.query_id).subscribe(
-      data => {
-        this.status = data;
-      }
+      data => this.status = data,
+      error => console.log(error)
     );
     if (this.status && !this.projectService.activeProject.is_query_run) {
       if (this.status.progress && this.status.total) {
@@ -100,6 +111,7 @@ export class QueriesComponent implements OnInit {
         this.timer.unsubscribe();
         this.isQueryRunning = false;
         this.projectService.activeProject.is_query_run = true;
+        this.saveProject();
       } else if (this.status.status === 'ERROR') {
         this.timer.unsubscribe();
         this.isQueryRunning = false;

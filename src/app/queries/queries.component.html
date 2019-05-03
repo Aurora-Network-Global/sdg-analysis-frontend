@@ -102,10 +102,10 @@
                   (click)="runQuery()"></button>
         </div>
         <div *ngIf="isQueryRunning" class="ui-g">
-          <div class="ui-g-12">
+          <div *ngIf="progress" class="ui-g-12">
             <p-progressBar [value]="progress"></p-progressBar>
           </div>
-          <div class="ui-g">
+          <div *ngIf="status" class="ui-g">
           <p *ngIf="status.total != 0 && isQueryRunning">processing {{status.progress}} of {{status.total}}
             publications </p>
           </div>
