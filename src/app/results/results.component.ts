@@ -45,15 +45,18 @@ export class ResultsComponent implements OnInit {
               this.loading = false;
             }
           );
+        } else {
+          this.loading = false;
         }
         this.uploadUrl = appGlobals.uploadScivalDataUrl + this.query_id;
         this.resultsService.getRelevanceMeasures(this.query_id).subscribe(
-          data => this.relevanceMeasure = data
+          data => this.relevanceMeasure = data,
+          error => console.log('no relevance measures found')
         );
         this.resultsService.getKeywords(this.query_id).subscribe(
-          data => this.keywordFrequencyList = data
+          data => this.keywordFrequencyList = data,
+          error => console.log('no keywords found')
         );
-
       }
     );
   }
