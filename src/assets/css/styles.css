@@ -8,7 +8,6 @@
   width: 100%;
   padding: 10px;
   vertical-align: middle;
-  text-align:center;
 
 }
 .tile-top {
@@ -23,4 +22,77 @@
   height: 50px;
   padding: 10px;
   font-size: x-large;
+}
+
+.description {
+  font-size: large;
+  text-align:center;
+}
+
+h1 {
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+}
+
+.centered {
+  text-align: center;
+}
+
+.content-start {
+  min-height: calc(100vh - 70px);
+}
+
+.content {
+  min-height: calc(100vh - 160px);
+}
+
+.footer-start {
+  background-color: #49B05C;
+  float: left;
+  opacity: 0.9;
+  color: #ffffff;
+  width: 100%;
+  padding: 10px;
+  vertical-align: middle;
+  text-align: center;
+  font-size: larger;
+  height: 50px;
+}
+
+.footer {
+  background-color: #49B05C;
+  float: left;
+  opacity: 0.9;
+  color: #ffffff;
+  width: 100%;
+  padding: 5px;
+  vertical-align: middle;
+  text-align: center;
+  font-size: larger;
+  height: 80px;
+}
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-bottom: 50px;
+}
+
+.navbar {
+  background-color: #49B05C;
+  opacity: 0.9;
+  color: #ffffff;
+}
+
+.navbar-brand  {
+  color: #ffffff;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+button.footer {
+  height: 50px;
+  width: 200px;
 }

@@ -1,0 +1,75 @@
+<nav class="navbar">
+  <a class="navbar-brand" style="height: 50px;" href="https://aurora-network.global/">AurorA</a>
+
+  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px"
+          label="Start" [routerLink]="['/start']"></button>
+  >>
+  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="Query"
+          [routerLink]="['/queries', queryId]"></button>
+  >>
+  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="EIDs"
+          [routerLink]="['/results/eids', queryId]"></button>
+  >>
+  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="Records"
+          [routerLink]="['/results/records', queryId]"></button>
+  >>
+  <button pButton type="button" class="ui-button" style="width: 120px; height: 40px" label="Keywords"
+          [routerLink]="['/results/keywords', queryId]"></button>
+  >>
+  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="Scival"
+          [routerLink]="['/results/scival', queryId]"></button>
+</nav>
+
+<div class="content">
+  <div *ngIf="!loading" class="ui-g">
+
+    <div class="ui-g-10 ui-g-offset-1">
+      <div class="tile">
+        <h1>Keywords overview for "{{projectService.activeProject.name}}"</h1>
+        <p class="description">
+          The table depicts the frequency of user given keywords in the full records.
+        </p>
+      </div>
+    </div>
+    <div *ngIf="keywordFrequencyList" class="ui-g-10 ui-g-offset-1">
+      <div class="tile">
+        <h2>List of keywords</h2>
+        <p-table [value]="keywordFrequencyList" [paginator]="true" [rows]="15">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Keyword</th>
+              <th [pSortableColumn]="'count'">Count</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-keyword>
+            <tr>
+              <td>{{keyword.keyword}}</td>
+              <td>{{keyword.count}}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="footer">
+  <div class="ui-g">
+    <div class="ui-g-2">
+      <h3>Actions:</h3>
+    </div>
+    <div class="ui-g-2">
+      <button pButton type="button" class="ui-button-danger footer"
+              label="Records page"
+              icon="fa-backward"
+              [routerLink]="['/results/records', queryId]"></button>
+    </div>
+    <div class="ui-g-6">
+    </div>
+    <div class="ui-g-2">
+      <button pButton type="button" class="ui-button-danger footer"
+              label="Scival page"
+              icon="fa-forward"
+              [routerLink]="['/results/scival', queryId]"></button>
+    </div>
+  </div>
+</footer>

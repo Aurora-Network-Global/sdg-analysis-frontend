@@ -1,9 +1,13 @@
+<div class="content-start">
+<div class="jumbotron">
+  <h1><a href="https://aurora-network.global/"><img src="../assets/img/aurora-logo.png"> </a> :: SDG project</h1>
+</div>
 <div class="container-fluid">
   <div *ngIf="!busy" class="ui-g">
-    <div class="ui-g-6">
-      <div class="tile">
+    <div class="ui-g-5 ui-g-offset-1">
+      <div class="tile centered">
         <h2>New query</h2>
-        <p>Type in a short title for the query.</p>
+        <p>Type in a short title for the query, then press "Create".</p>
         <span class="ui-float-label">
         <input id="username-input" type="text" size="30" pInputText [(ngModel)]="new_project"
                [ngModelOptions]="{standalone: true}" autofocus class="form-control">
@@ -12,13 +16,17 @@
       </span>
       </div>
     </div>
-    <div class="ui-g-6">
-      <div class="tile">
+    <div class="ui-g-5">
+      <div class="tile centered">
         <h2>Continue with query</h2>
-        <p>Select one of the already defined queries</p>
-        <p-dropdown [options]="projects" [(ngModel)]="projectService.activeProject" placeholder="Select a Project" optionLabel="name" [showClear]="true"></p-dropdown>
+        <p>Select one of the already defined queries, the press "Go to query"</p>
+        <p-dropdown filter="true" [options]="projects" [(ngModel)]="projectService.activeProject" placeholder="Select a Project" optionLabel="name" [showClear]="true" (onChange)="router.navigate(['/queries', projectService.activeProject.project_id])"></p-dropdown>
         <button pButton type="button" label="Go to query" class="ui-button-success" [routerLink]="['/queries', projectService.activeProject.project_id]"></button>
       </div>
     </div>
   </div>
 </div>
+</div>
+<footer class="footer-start">
+    <p>The project <a href="https://aurora-network.global/project/sdg-analysis-bibliometrics-relevance/">SDG analysis: bibliometrics of relevance</a> is part of the <a href="https://aurora-network.global/"> Aurora Universities Network</a></p>
+</footer>

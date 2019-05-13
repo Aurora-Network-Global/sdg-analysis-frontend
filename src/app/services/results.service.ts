@@ -18,4 +18,8 @@ export class ResultsService {
   getRelevanceMeasures(query_id: string): Observable<RelevanceMeasures> {
     return this.http.get<RelevanceMeasures>(appGlobals.relevanceMeasuresUrl + query_id);
   }
+
+  calculateRelevanceMeasures(query_id: string): Observable<RelevanceMeasures> {
+    return this.http.get<RelevanceMeasures>(appGlobals.serverAddress + '/eids/checkTestEids/' + query_id);
+  }
 }

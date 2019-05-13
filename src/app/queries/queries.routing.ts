@@ -4,7 +4,7 @@ import {QueriesComponent} from './queries.component';
 
 
 const routes: Routes = [
-  { path : ':query_id', component: QueriesComponent }
+  { path : ':queryId', component: QueriesComponent }
 ];
 
 export const queriesRouting: ModuleWithProviders = RouterModule.forChild(routes);
