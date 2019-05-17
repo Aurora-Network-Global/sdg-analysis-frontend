@@ -3,8 +3,23 @@ import {HttpHeaders} from '@angular/common/http';
 // export const serverAddress = '/queryExecution';
 export const serverAddress = 'http://localhost:5000';
 
-export const uploadScivalDataUrl = serverAddress + '/scival/single/';
-export const checkScival = serverAddress + '/scival/check/';
+export const resultsPages = [{
+  key: 'eids',
+  title: 'EIDs'
+}, {
+  key: 'relevance',
+  title: 'Relevance'
+}, {
+  key: 'records',
+  title: 'Records'
+}, {
+  key: 'keywords',
+  title: 'Keywords'
+}, {
+  key: 'scival',
+  title: 'Scival'
+}];
+
 export const queryUrl = serverAddress + '/query/';
 export const statusUrl = serverAddress + '/status/single/';
 export const keywordsUrl = serverAddress + '/keywords/';

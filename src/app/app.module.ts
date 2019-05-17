@@ -8,7 +8,7 @@ import {ButtonModule} from 'primeng/button';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {appRouting} from './app.routing';
-import {FileService} from './services/file.service';
+import {QueryService} from './services/query.service';
 import {RunnerService} from './services/runner.service';
 import {ResultsService} from './services/results.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -30,7 +30,7 @@ import {ProjectService} from './services/project.service';
     BrowserAnimationsModule,
     appRouting
   ],
-  providers: [HttpClientModule, FileService, RunnerService, ResultsService, ProjectService],
+  providers: [HttpClientModule, QueryService, RunnerService, ResultsService, ProjectService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

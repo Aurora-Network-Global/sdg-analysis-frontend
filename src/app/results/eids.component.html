@@ -7,17 +7,11 @@
   <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="Query"
           [routerLink]="['/queries', queryId]"></button>
   >>
-  <button pButton type="button" class="ui-button" style="width: 120px; height: 40px" label="EIDs"
-          [routerLink]="['/results/eids', queryId]"></button>
+  <span *ngFor="let page of resultPages">
+  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="{{page.title}}"
+          [routerLink]="['/results/' + page.key, queryId]"></button>
   >>
-  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="Records"
-          [routerLink]="['/results/records', queryId]"></button>
-  >>
-  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="Keywords"
-          [routerLink]="['/results/keywords', queryId]"></button>
-  >>
-  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="Scival"
-          [routerLink]="['/results/scival', queryId]"></button>
+  </span>
 </nav>
 
 <div class="content">
@@ -31,75 +25,35 @@
     <div class="ui-g-10 ui-g-offset-1">
       <div class="tile">
         <h2>Execute Query</h2>
+        <p-messages [(value)]="messages"></p-messages>
         <p class="description">
-          Press "Run query" to execute the defined query and collect the list of EIDs. Depending on the number of results this can take quite a while.
+          Press "Run query" to execute the defined query and collect the list of EIDs. Depending on the number of
+          results this can take quite a while.
           After successful collection the list of all EIDs can be accessed by clicking "Complete list".
           Press. Press "Random sample list" to download a list of randomly chosen EIDs. The number of random EIDs can
           be altered using the input field. The default value is 100.
         </p>
         <div class="ui-g-3">
-        </div>
-        <div class="ui-g-3">
-          <button pButton [disabled]="!this.projectService.activeProject.isEidsCollected" type="button" class="ui-button"
+          <button pButton [disabled]="!this.projectService.activeProject.isEidsCollected" type="button"
+                  class="ui-button"
                   label="Complete list"
                   (click)="downloadEids()"></button>
         </div>
-        <div class="ui-g-3">
+        <div class="ui-g-5">
           <div class="ui-inputgroup">
             <input type="text" pInputText size="10" placeholder="Sample Size" style="background-color: transparent;"
                    [(ngModel)]="sampleSize">
-            <button pButton [disabled]="!this.projectService.activeProject.isEidsCollected" type="button" class="ui-button"
+            <button pButton [disabled]="!this.projectService.activeProject.isEidsCollected" type="button"
+                    class="ui-button"
                     label="Random sample list"
                     (click)="downloadSampleEids()"></button>
+            <button pButton [disabled]="!this.projectService.activeProject.isEidsCollected" type="button"
+                    class="ui-button"
+                    label="Scopus query to clipboard"
+                    (click)="copySearchString()"></button>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="ui-g-5 ui-g-offset-1">
-      <div class="tile centered">
-        <h2>Provide Test Data</h2>
-        <p>First upload list (simple txt-file) of test EIDs to calculate some relevance measures by pressiong
-          "Upload".</p>
-        <p-fileUpload mode="basic" name="test-file" url="{{uploadUrl}}" accept="text/*"
-                      chooseLabel="Upload"></p-fileUpload>
-        <p>Then press "Calculate" to get the relevance measures based on the test-entries.</p>
-        <button pButton type="button" class="ui-button" label="Calculate"
-                (click)="calculateRelevanceMeasures()"></button>
-      </div>
-    </div>
-
-    <div class="ui-g-5">
-      <div class="tile">
-        <div *ngIf="relevanceMeasure">
-          <h2>Relevance Measures</h2>
-          <div class="ui-g">
-            <div class="ui-g-4">Number of search results:</div>
-            <div class="ui-g-4">{{relevanceMeasure.total_number_of_query_results}}</div>
-          </div>
-          <div class="ui-g">
-            <div class="ui-g-4">Number of test entries:</div>
-            <div class="ui-g-4">{{relevanceMeasure.number_of_test_entries}}</div>
-          </div>
-          <div class="ui-g" *ngIf="relevanceMeasure.number_of_test_entries != 0">
-            <div class="ui-g-4">Number of true positives:</div>
-            <div class="ui-g-4">{{relevanceMeasure.true_positives}}</div>
-          </div>
-          <div class="ui-g" *ngIf="relevanceMeasure.number_of_test_entries != 0">
-            <div class="ui-g-4">Number of false negatives:</div>
-            <div class="ui-g-4">{{relevanceMeasure.false_negatives}}</div>
-          </div>
-          <div class="ui-g" *ngIf="relevanceMeasure.number_of_test_entries != 0">
-            <div class="ui-g-4">Number of false positives:</div>
-            <div class="ui-g-4">{{relevanceMeasure.false_positives}}</div>
-          </div>
-          <div class="ui-g" *ngIf="relevanceMeasure.number_of_test_entries != 0">
-            <div class="ui-g-4">Precision:</div>
-            <div class="ui-g-4">{{relevanceMeasure.precision | percent}}</div>
-          </div>
-          <div class="ui-g" *ngIf="relevanceMeasure.number_of_test_entries != 0">
-            <div class="ui-g-4">Recall:</div>
-            <div class="ui-g-4">{{relevanceMeasure.recall | percent}}</div>
-          </div>
+        <div class="ui-g-4">
         </div>
       </div>
     </div>
@@ -127,7 +81,7 @@
       <button pButton type="button" class="ui-button-danger footer"
               label="Records page"
               icon="fa-forward"
-              [routerLink]="['/results/records', queryId]"></button>
+              [routerLink]="['/results/relevance', queryId]"></button>
     </div>
   </div>
 </footer>

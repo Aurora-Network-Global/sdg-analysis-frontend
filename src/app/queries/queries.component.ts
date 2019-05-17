@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FileService} from '../services/file.service';
+import {QueryService} from '../services/query.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Query} from '../model/Query';
 import * as appGlobals from '../app.globals';
@@ -19,10 +19,12 @@ export class QueriesComponent implements OnInit {
 
   progress: number;
 
+  resultPages = appGlobals.resultsPages;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               public projectService: ProjectService,
-              private fileservice: FileService) {
+              private fileservice: QueryService) {
   }
 
   ngOnInit() {
@@ -66,7 +68,7 @@ export class QueriesComponent implements OnInit {
   }
 
   getScopusSearchString() {
-    const url = appGlobals.getScopusSearchString + this.queryId;
+    const url = appGlobals.getScopusSearchString + this.queryId + '?prefix=';
     window.open(url, '_blank');
   }
 }

@@ -6,6 +6,7 @@ import {QueriesComponent} from './queries.component';
 import {FileUploadModule, InputTextareaModule, InputTextModule, ProgressBarModule} from 'primeng/primeng';
 import {queriesRouting} from './queries.routing';
 import {ButtonModule} from 'primeng/button';
+import {ClipboardModule, ClipboardService} from 'ngx-clipboard';
 
 @NgModule({
   imports: [
@@ -17,10 +18,11 @@ import {ButtonModule} from 'primeng/button';
     ButtonModule,
     FileUploadModule,
     ProgressBarModule,
+    ClipboardModule,
   queriesRouting],
   declarations: [QueriesComponent],
   exports: [QueriesComponent],
-  providers: []
+  providers: [ClipboardService]
 })
 
 export class QueriesModule {}

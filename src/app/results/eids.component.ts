@@ -7,6 +7,10 @@ import {ProjectService} from '../services/project.service';
 import {IntervalObservable} from 'rxjs/observable/IntervalObservable';
 import {RunnerService} from '../services/runner.service';
 import {Status} from '../model/Status';
+import {EidsService} from '../services/eids.service';
+import {ClipboardService} from 'ngx-clipboard';
+import {Message} from 'primeng/api';
+import {MessageService} from 'primeng/components/common/messageservice';
 
 @Component({
   selector: 'app-eids',
@@ -14,7 +18,11 @@ import {Status} from '../model/Status';
 })
 export class EidsComponent implements OnInit {
 
+  resultPages = appGlobals.resultsPages;
+
   queryId: string;
+
+  messages: Message[];
 
   loading: boolean;
 
@@ -28,6 +36,8 @@ export class EidsComponent implements OnInit {
 
   status: Status;
 
+  searchString: string;
+
   eidsUrl = appGlobals.serverAddress + '/eids';
 
 
@@ -37,7 +47,10 @@ export class EidsComponent implements OnInit {
               private router: Router,
               public projectService: ProjectService,
               private resultsService: ResultsService,
-              private runnerService: RunnerService) {
+              private runnerService: RunnerService,
+  private eidsService: EidsService,
+              private clipboardService: ClipboardService,
+              private messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -50,11 +63,6 @@ export class EidsComponent implements OnInit {
         } else {
           this.loading = false;
         }
-        this.uploadUrl = this.eidsUrl + '/test/' + this.queryId;
-        this.resultsService.getRelevanceMeasures(this.queryId).subscribe(
-          data => this.relevanceMeasure = data,
-          error => console.log('no relevance measures found')
-        );
       }
     );
   }
@@ -63,7 +71,6 @@ export class EidsComponent implements OnInit {
     this.projectService.getProject(this.queryId).subscribe(
       data => {
         this.projectService.activeProject = data;
-        console.log(this.projectService.activeProject);
         this.loading = false;
         if (this.projectService.activeProject.isEidsCollected) {
           this.isQueryRunning = false;
@@ -81,11 +88,17 @@ export class EidsComponent implements OnInit {
     window.open(this.eidsUrl + '/calculateSample/' + this.queryId + '?sample_size=' + this.sampleSize, '_blank');
   }
 
-  calculateRelevanceMeasures() {
-    this.resultsService.calculateRelevanceMeasures(this.queryId).subscribe(
-      data => this.relevanceMeasure = data
+  copySearchString() {
+    this.eidsService.getScopusSearchString(this.queryId, 'sample_').subscribe(
+      data => this.clipboardService.copyFromContent(data)
     );
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Query copied!',
+      detail: 'The Scopus search term was copied to the clipboard.'
+    });
   }
+
 
   runQuery() {
     this.isQueryRunning = true;
@@ -93,5 +106,11 @@ export class EidsComponent implements OnInit {
     this.timer = IntervalObservable.create(2000).subscribe(() => {
       this.updateProject();
     });
+  }
+
+  getScopusSearchString(prefix: string) {
+    this.eidsService.getScopusSearchString(this.queryId, prefix).subscribe(
+      data => this.searchString = data
+    );
   }
 }

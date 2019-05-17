@@ -7,17 +7,11 @@
   <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="Query"
           [routerLink]="['/queries', queryId]"></button>
   >>
-  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="EIDs"
-          [routerLink]="['/results/eids', queryId]"></button>
+  <span *ngFor="let page of resultPages">
+  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="{{page.title}}"
+          [routerLink]="['/results/' + page.key, queryId]"></button>
   >>
-  <button pButton type="button" class="ui-button" style="width: 120px; height: 40px" label="Records"
-          [routerLink]="['/results/records', queryId]"></button>
-  >>
-  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="Keywords"
-          [routerLink]="['/results/keywords', queryId]"></button>
-  >>
-  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="Scival"
-          [routerLink]="['/results/scival', queryId]"></button>
+  </span>
 </nav>
 <div class="content">
   <div *ngIf="!loading" class="ui-g">
@@ -63,7 +57,7 @@
       <button pButton type="button" class="ui-button-danger footer"
               label="EIDs page"
               icon="fa-backward"
-              [routerLink]="['/results/eids', queryId]"></button>
+              [routerLink]="['/results/relevance', queryId]"></button>
     </div>
     <div class="ui-g-2">
       <button [disabled]="!projectService.activeProject.isEidsCollected" pButton type="button"

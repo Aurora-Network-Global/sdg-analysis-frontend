@@ -27,6 +27,8 @@ export class RecordsComponent implements OnInit {
 
   progress = 0;
 
+  resultPages = appGlobals.resultsPages;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               public projectService: ProjectService,

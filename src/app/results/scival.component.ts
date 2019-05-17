@@ -4,6 +4,7 @@ import {ProjectService} from '../services/project.service';
 import {ResultsService} from '../services/results.service';
 import {RunnerService} from '../services/runner.service';
 import {KeywordFrequency} from '../model/KeywordFrequency';
+import * as appGlobals from '../app.globals';
 
 @Component({
   selector: 'app-scival',
@@ -18,6 +19,8 @@ export class ScivalComponent implements OnInit {
   uploadUrl: string;
 
   keywordFrequencyList: KeywordFrequency[];
+
+  resultPages = appGlobals.resultsPages;
 
   constructor(
     private route: ActivatedRoute,

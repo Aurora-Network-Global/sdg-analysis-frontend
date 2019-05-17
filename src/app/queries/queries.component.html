@@ -3,20 +3,14 @@
   <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px"
           label="Start" [routerLink]="['/start']"></button>
   >>
-  <button pButton type="button" class="ui-button" style="width: 120px; height: 40px" label="Query"
+  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="Query"
           [routerLink]="['/queries', queryId]"></button>
   >>
-  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="EIDs"
-          [routerLink]="['/results/eids', queryId]"></button>
+  <span *ngFor="let page of resultPages">
+  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="{{page.title}}"
+          [routerLink]="['/results/' + page.key, queryId]"></button>
   >>
-  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="Records"
-          [routerLink]="['/results/records', queryId]"></button>
-  >>
-  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="Keywords"
-          [routerLink]="['/results/keywords', queryId]"></button>
-  >>
-  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="Scival"
-          [routerLink]="['/results/scival', queryId]"></button>
+  </span>
 </nav>
 <div class="content">
   <div *ngIf="!loading" class="ui-g">
@@ -109,7 +103,7 @@
     </div>
   </div>
 </div>
-<footer class="footer">
+<footer *ngIf="!loading" class="footer">
         <div class="ui-g">
           <div class="ui-g-2">
             <h3>Actions:</h3>
