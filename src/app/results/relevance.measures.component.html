@@ -25,33 +25,33 @@
     <div class="ui-g-5 ui-g-offset-1">
       <div class="tile centered">
         <h3>Recall</h3>
-        <p>First upload list (simple txt-file) of test EIDs to calculate some relevance measures by pressiong
-          "Upload".</p>
-        <p-fileUpload mode="basic" name="test-file" url="{{uploadUrl}}" accept="text/*"
+        <p>First upload list (simple txt-file) of test EIDs which should be contained in the results set by pressing
+          "Upload" and selecting the txt-file.</p>
+        <p-fileUpload mode="basic" name="test-file" url="{{testUploadUrl}}" accept="text/*"
                       chooseLabel="Upload"></p-fileUpload>
-        <p>Then press "Calculate" to get the relevance measures based on the test-entries.</p>
+        <p>Then press "Calculate" to get the recall measures based on these test-entries.</p>
         <button pButton type="button" class="ui-button" label="Calculate"
-                (click)="calculateRelevanceMeasures()"></button>
+                (click)="calculateRecall()"></button>
         <div *ngIf="relevanceMeasure">
           <div class="ui-g">
             <div class="ui-g-4">Number of search results:</div>
-            <div class="ui-g-4">{{relevanceMeasure.total_number_of_query_results}}</div>
+            <div class="ui-g-4">{{relevanceMeasure.number_of_search_results}}</div>
           </div>
-          <div *ngIf="relevanceMeasure.number_of_test_entries != 0">
+          <div *ngIf="relevanceMeasure.number_test_entries != 0">
             <div class="ui-g">
-              <div class="ui-g-4">Number of test entries:</div>
-              <div class="ui-g-4">{{relevanceMeasure.number_of_test_entries}}</div>
+              <div class="ui-g-4">Number of test entries uploaded:</div>
+              <div class="ui-g-4">{{relevanceMeasure.number_test_entries}}</div>
             </div>
             <div class="ui-g">
-              <div class="ui-g-4">Number of true positives:</div>
-              <div class="ui-g-4">{{relevanceMeasure.true_positives}}</div>
+              <div class="ui-g-4">Number of test entries found in the search:</div>
+              <div class="ui-g-4">{{relevanceMeasure.number_test_entries_found}}</div>
             </div>
             <div class="ui-g" style="font-size: large;">
               <div class="ui-g-4">Recall Score:</div>
-              <div class="ui-g-4">{{relevanceMeasure.true_positives / relevanceMeasure.number_of_test_entries | percent}}</div>
+              <div class="ui-g-4">{{relevanceMeasure.recall | percent}}</div>
             </div>
           </div>
-          <div *ngIf="relevanceMeasure.number_of_test_entries == 0">
+          <div *ngIf="relevanceMeasure.number_test_entries == 0">
             <p>No test data provided! Please upload a list of test EIDs.</p>
           </div>
         </div>
@@ -62,28 +62,37 @@
       <div class="tile centered">
         <div *ngIf="relevanceMeasure">
           <h3>Precision</h3>
-          <div class="ui-g" *ngIf="relevanceMeasure.number_of_test_entries != 0">
-            <div class="ui-g-4">Number of false negatives:</div>
-            <div class="ui-g-4">{{relevanceMeasure.false_negatives}}</div>
+          <p>First upload list of comma separated values (e.g. the sample EIDs from the previous page) containing the
+            sample EIDs and the judgement, whether this EID should be contained in the results set. Press the "Upload"
+            Button and select the corresponding csv-file.</p>
+          <p-fileUpload mode="basic" name="sample-judgement-file" url="{{sampleUploadUrl}}" accept="text/*"
+                        chooseLabel="Upload"></p-fileUpload>
+          <p>Then press "Calculate" to get the precision measures based on these judgements.</p>
+          <button pButton type="button" class="ui-button" label="Calculate"
+                  (click)="calculatePrecision()"></button>
+          <div class="ui-g" *ngIf="relevanceMeasure.number_sample_entries != 0">
+            <div class="ui-g-4">Number of entries in the sample:</div>
+            <div class="ui-g-4">{{relevanceMeasure.number_sample_entries}}</div>
           </div>
-          <div class="ui-g" *ngIf="relevanceMeasure.number_of_test_entries != 0">
-            <div class="ui-g-4">Number of false positives:</div>
-            <div class="ui-g-4">{{relevanceMeasure.false_positives}}</div>
+          <div class="ui-g" *ngIf="relevanceMeasure.number_positive_sample_entries != 0">
+            <div class="ui-g-4">Number of relevant entries in the sample:</div>
+            <div class="ui-g-4">{{relevanceMeasure.number_positive_sample_entries}}</div>
           </div>
-          <div class="ui-g" *ngIf="relevanceMeasure.number_of_test_entries != 0">
-            <div class="ui-g-4">Precision:</div>
+          <div class="ui-g" *ngIf="relevanceMeasure.number_sample_entries != 0">
+            <div class="ui-g-4">Precision Score:</div>
             <div class="ui-g-4">{{relevanceMeasure.precision | percent}}</div>
-          </div>
-          <div class="ui-g" *ngIf="relevanceMeasure.number_of_test_entries != 0">
-            <div class="ui-g-4">Recall:</div>
-            <div class="ui-g-4">{{relevanceMeasure.recall | percent}}</div>
           </div>
         </div>
       </div>
     </div>
+    <div class="ui-g-10 ui-g-offset-1">
+      <div class="tile">
+        <h1>Overall F-measure: {{2* (relevanceMeasure.recall * relevanceMeasure.precision) / (relevanceMeasure.recall + relevanceMeasure.precision)}}</h1>
+      </div>
+    </div>
   </div>
 </div>
-<footer class="footer">
+<footer *ngIf="!loading" class="footer">
   <div class="ui-g">
     <div class="ui-g-2">
       <h3>Actions:</h3>
@@ -94,12 +103,7 @@
               icon="fa-backward"
               [routerLink]="['/results/eids', queryId]"></button>
     </div>
-    <div class="ui-g-2">
-      <button [disabled]="!projectService.activeProject.isQueryDefined" pButton type="button"
-              class="ui-button-danger footer" label="Run query" icon="fa-forward"
-              (click)="runQuery()"></button>
-    </div>
-    <div class="ui-g-4">
+    <div class="ui-g-6">
     </div>
     <div class="ui-g-2">
       <button pButton type="button" class="ui-button-danger footer"

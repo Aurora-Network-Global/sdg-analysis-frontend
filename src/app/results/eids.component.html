@@ -25,7 +25,7 @@
     <div class="ui-g-10 ui-g-offset-1">
       <div class="tile">
         <h2>Execute Query</h2>
-        <p-messages [(value)]="messages"></p-messages>
+        <p-toast [style]="{marginTop: '80px'}"></p-toast>
         <p class="description">
           Press "Run query" to execute the defined query and collect the list of EIDs. Depending on the number of
           results this can take quite a while.
@@ -33,33 +33,33 @@
           Press. Press "Random sample list" to download a list of randomly chosen EIDs. The number of random EIDs can
           be altered using the input field. The default value is 100.
         </p>
+        <p *ngIf="projectService.activeProject.isEidsCollected" class="description">EIDs have been collected.</p>
         <div class="ui-g-3">
           <button pButton [disabled]="!this.projectService.activeProject.isEidsCollected" type="button"
                   class="ui-button"
                   label="Complete list"
                   (click)="downloadEids()"></button>
         </div>
-        <div class="ui-g-5">
-          <div class="ui-inputgroup">
-            <input type="text" pInputText size="10" placeholder="Sample Size" style="background-color: transparent;"
-                   [(ngModel)]="sampleSize">
+        <div class="ui-g-2">
+            <p-spinner size="10" [(ngModel)]="sampleSize" [step]="5"></p-spinner>
+        </div>
+        <div class="ui-g-2">
             <button pButton [disabled]="!this.projectService.activeProject.isEidsCollected" type="button"
                     class="ui-button"
                     label="Random sample list"
                     (click)="downloadSampleEids()"></button>
-            <button pButton [disabled]="!this.projectService.activeProject.isEidsCollected" type="button"
-                    class="ui-button"
-                    label="Scopus query to clipboard"
-                    (click)="copySearchString()"></button>
-          </div>
         </div>
-        <div class="ui-g-4">
+        <div class="ui-g-2">
+          <button pButton [disabled]="!this.projectService.activeProject.isEidsCollected" type="button"
+                  class="ui-button"
+                  label="see in Scopus"
+                  (click)="goToScopusSearch()"></button>
         </div>
       </div>
     </div>
   </div>
 </div>
-<footer class="footer">
+<footer *ngIf="!loading" class="footer">
   <div class="ui-g">
     <div class="ui-g-2">
       <h3>Actions:</h3>
@@ -79,7 +79,7 @@
     </div>
     <div class="ui-g-2">
       <button pButton type="button" class="ui-button-danger footer"
-              label="Records page"
+              label="Relevance page"
               icon="fa-forward"
               [routerLink]="['/results/relevance', queryId]"></button>
     </div>

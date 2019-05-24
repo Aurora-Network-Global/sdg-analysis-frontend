@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {KeywordFrequency} from '../model/KeywordFrequency';
 import * as appGlobals from '../app.globals';
 import {RelevanceMeasures} from '../model/RelevanceMeasures';
@@ -19,7 +19,7 @@ export class ResultsService {
     return this.http.get<RelevanceMeasures>(appGlobals.relevanceMeasuresUrl + query_id);
   }
 
-  calculateRelevanceMeasures(query_id: string): Observable<RelevanceMeasures> {
-    return this.http.get<RelevanceMeasures>(appGlobals.serverAddress + '/eids/checkTestEids/' + query_id);
+  calculateRecall(query_id: string): Observable<RelevanceMeasures> {
+    return this.http.get<RelevanceMeasures>(appGlobals.serverAddress + '/relevanceMeasures/getRecall/' + query_id);
   }
 }

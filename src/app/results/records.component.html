@@ -38,7 +38,8 @@
     <div class="ui-g-10 ui-g-offset-1">
       <div class="tile">
         <h3 class="centered">Data collection progress</h3>
-        <p-progressBar [value]="progress"></p-progressBar>
+        <p *ngIf="projectService.activeProject.isDataCollected" class="description">Data have already been collected. Do you want to recollect?</p>
+        <p-progressBar *ngIf="progress" [value]="progress"></p-progressBar>
         <p> {{progress / 100 | percent : '1.1-2'}} data have been collected.</p>
 
       </div>

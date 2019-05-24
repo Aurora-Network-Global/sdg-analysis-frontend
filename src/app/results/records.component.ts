@@ -3,9 +3,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ProjectService} from '../services/project.service';
 import {ResultsService} from '../services/results.service';
 import * as appGlobals from '../app.globals';
-import {IntervalObservable} from 'rxjs/observable/IntervalObservable';
 import {RunnerService} from '../services/runner.service';
 import {Status} from '../model/Status';
+import {interval} from 'rxjs/internal/observable/interval';
 
 @Component({
   selector: 'app-records',
@@ -25,7 +25,7 @@ export class RecordsComponent implements OnInit {
 
   status: Status;
 
-  progress = 0;
+  progress;
 
   resultPages = appGlobals.resultsPages;
 
@@ -48,7 +48,7 @@ export class RecordsComponent implements OnInit {
               this.loading = false;
               if (this.projectService.activeProject.isDataCollecting) {
                 this.getStatus();
-                this.timer = IntervalObservable.create(2000).subscribe(() => {
+                this.timer = interval(2000).subscribe(() => {
                   this.getStatus();
                 });
               } else if (this.projectService.activeProject.isDataCollected) {
@@ -57,6 +57,7 @@ export class RecordsComponent implements OnInit {
             }
           );
         } else {
+          this.progress = 100;
           this.loading = false;
         }
       }
@@ -101,7 +102,7 @@ export class RecordsComponent implements OnInit {
   collectData() {
     this.isCollecting = true;
     this.runnerService.collectData(this.queryId).subscribe();
-    this.timer = IntervalObservable.create(2000).subscribe(() => {
+    this.timer = interval(2000).subscribe(() => {
       this.getStatus();
     });
   }

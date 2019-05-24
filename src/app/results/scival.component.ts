@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProjectService} from '../services/project.service';
 import {ResultsService} from '../services/results.service';
-import {RunnerService} from '../services/runner.service';
 import {KeywordFrequency} from '../model/KeywordFrequency';
 import * as appGlobals from '../app.globals';
 
@@ -22,6 +21,8 @@ export class ScivalComponent implements OnInit {
 
   resultPages = appGlobals.resultsPages;
 
+  importing = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -34,6 +35,7 @@ export class ScivalComponent implements OnInit {
     this.route.params.subscribe(
       params => {
         this.queryId = params['queryId'];
+        this.uploadUrl =  appGlobals.serverAddress + '/scival/single/' + this.queryId;
         if (this.projectService.activeProject == null) {
           this.updateProject();
         } else {

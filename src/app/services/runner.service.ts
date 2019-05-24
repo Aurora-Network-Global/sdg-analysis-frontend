@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import * as appGlobals from '../app.globals';
-import {Query} from '../model/Query';
 import {Status} from '../model/Status';
 
 @Injectable()

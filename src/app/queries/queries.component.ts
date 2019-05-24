@@ -24,6 +24,7 @@ export class QueriesComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               public projectService: ProjectService,
+              private queryService: QueryService,
               private fileservice: QueryService) {
   }
 
@@ -67,8 +68,13 @@ export class QueriesComponent implements OnInit {
     );
   }
 
-  getScopusSearchString() {
-    const url = appGlobals.getScopusSearchString + this.queryId + '?prefix=';
-    window.open(url, '_blank');
+  goToTarget(target) {
+    this.queryService.getSearchString(this.queryId, target).subscribe(
+      text => {
+        const targetUrl = 'https://www.scopus.com/results/results.uri?sort=plf-f&src=s&sot=a&sdt=a&sl=18&s=' + encodeURI(text) +
+          '&origin=searchadvanced&editSaveSearch=';
+        window.open(targetUrl);
+      }
+    );
   }
 }

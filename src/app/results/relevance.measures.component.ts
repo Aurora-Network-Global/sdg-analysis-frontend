@@ -18,7 +18,8 @@ export class RelevanceMeasuresComponent implements OnInit {
 
   queryId: string;
 
-  uploadUrl: string;
+  testUploadUrl: string;
+  sampleUploadUrl: string;
 
   relevanceMeasure: RelevanceMeasures;
 
@@ -38,7 +39,8 @@ export class RelevanceMeasuresComponent implements OnInit {
         } else {
           this.loading = false;
         }
-        this.uploadUrl = appGlobals.serverAddress + '/eids' + '/test/' + this.queryId;
+        this.testUploadUrl = appGlobals.serverAddress + '/eids/test/' + this.queryId;
+        this.sampleUploadUrl = appGlobals.serverAddress + '/eids/sample-judgement/' + this.queryId;
         this.resultsService.getRelevanceMeasures(this.queryId).subscribe(
           data => this.relevanceMeasure = data,
           error => console.log('no relevance measures found')
@@ -54,5 +56,15 @@ export class RelevanceMeasuresComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  calculateRecall() {
+    this.resultsService.calculateRecall(this.queryId).subscribe(
+      data => this.relevanceMeasure = data
+    );
+  }
+
+  calculatePrecision() {
+
   }
 }

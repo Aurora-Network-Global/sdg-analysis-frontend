@@ -1,16 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import * as appGlobals from '../app.globals';
-import {ResultsService} from '../services/results.service';
-import {RelevanceMeasures} from '../model/RelevanceMeasures';
 import {ProjectService} from '../services/project.service';
-import {IntervalObservable} from 'rxjs/observable/IntervalObservable';
 import {RunnerService} from '../services/runner.service';
-import {Status} from '../model/Status';
 import {EidsService} from '../services/eids.service';
-import {ClipboardService} from 'ngx-clipboard';
-import {Message} from 'primeng/api';
-import {MessageService} from 'primeng/components/common/messageservice';
+import {interval} from 'rxjs/internal/observable/interval';
 
 @Component({
   selector: 'app-eids',
@@ -22,35 +16,20 @@ export class EidsComponent implements OnInit {
 
   queryId: string;
 
-  messages: Message[];
-
   loading: boolean;
 
-  uploadUrl: string;
-
-  sampleSize = '100';
+  sampleSize = 100;
 
   private timer: any;
 
   isQueryRunning = false;
 
-  status: Status;
-
-  searchString: string;
-
   eidsUrl = appGlobals.serverAddress + '/eids';
 
-
-  relevanceMeasure: RelevanceMeasures;
-
   constructor(private route: ActivatedRoute,
-              private router: Router,
               public projectService: ProjectService,
-              private resultsService: ResultsService,
               private runnerService: RunnerService,
-  private eidsService: EidsService,
-              private clipboardService: ClipboardService,
-              private messageService: MessageService) {
+              private eidsService: EidsService) {
   }
 
   ngOnInit() {
@@ -63,6 +42,9 @@ export class EidsComponent implements OnInit {
         } else {
           this.loading = false;
         }
+        this.eidsService.getLength(this.queryId, 'sample_').subscribe(
+          data => this.sampleSize = data
+        );
       }
     );
   }
@@ -74,7 +56,9 @@ export class EidsComponent implements OnInit {
         this.loading = false;
         if (this.projectService.activeProject.isEidsCollected) {
           this.isQueryRunning = false;
-          this.timer.unsubscribe();
+          if (this.timer) {
+            this.timer.unsubscribe();
+          }
         }
       }
     );
@@ -85,32 +69,24 @@ export class EidsComponent implements OnInit {
   }
 
   downloadSampleEids() {
-    window.open(this.eidsUrl + '/calculateSample/' + this.queryId + '?sample_size=' + this.sampleSize, '_blank');
+    window.open(this.eidsUrl + '/calculateSample/' + this.queryId + '?sample_size=' + String(this.sampleSize), '_blank');
   }
-
-  copySearchString() {
-    this.eidsService.getScopusSearchString(this.queryId, 'sample_').subscribe(
-      data => this.clipboardService.copyFromContent(data)
-    );
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Query copied!',
-      detail: 'The Scopus search term was copied to the clipboard.'
-    });
-  }
-
 
   runQuery() {
     this.isQueryRunning = true;
     this.runnerService.runQuery(this.queryId).subscribe();
-    this.timer = IntervalObservable.create(2000).subscribe(() => {
+    this.timer = interval(2000).subscribe(() => {
       this.updateProject();
     });
   }
 
-  getScopusSearchString(prefix: string) {
-    this.eidsService.getScopusSearchString(this.queryId, prefix).subscribe(
-      data => this.searchString = data
+  goToScopusSearch() {
+    this.eidsService.getSampleScopusSearchString(this.queryId, this.sampleSize).subscribe(
+      data => {
+        const url = 'https://www.scopus.com/results/results.uri?sort=plf-f&src=s&sot=a&sdt=a&sl=18&s=' + encodeURI(data) +
+          '&origin=searchadvanced&editSaveSearch=';
+        window.open(url);
+      }
     );
   }
 }

@@ -35,8 +35,13 @@
     <div *ngIf="projectService.activeProject.isDataCollected" class="ui-g-10 ui-g-offset-1">
       <div class="tile">
         <h2>Upload Scival Data</h2>
-        <p *ngIf="projectService.activeProject.isScivalData" class="description">Scival data have already been uploaded.</p>
-        <p-fileUpload name="scival-file" url="{{uploadUrl}}"></p-fileUpload>
+        <p *ngIf="projectService.activeProject.isScivalData" class="description">Scival data have already been uploaded.
+          Do you want to update them?</p>
+        <div class="centered">
+          <p-fileUpload [disabled]="importing" mode="basic" name="scival-file" url="{{uploadUrl}}" accept=".csv"
+                        chooseLabel="Upload" (onBeforeUpload)="importing=true;"
+                        (onUpload)="importing = false;"></p-fileUpload>
+        </div>
       </div>
     </div>
   </div>
