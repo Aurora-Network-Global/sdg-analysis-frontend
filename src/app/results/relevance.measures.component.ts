@@ -65,6 +65,8 @@ export class RelevanceMeasuresComponent implements OnInit {
   }
 
   calculatePrecision() {
-
+    this.resultsService.calculatePrecision(this.queryId).subscribe(
+      data => this.relevanceMeasure = data
+    );
   }
 }

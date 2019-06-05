@@ -16,10 +16,14 @@ export class ResultsService {
   }
 
   getRelevanceMeasures(query_id: string): Observable<RelevanceMeasures> {
-    return this.http.get<RelevanceMeasures>(appGlobals.relevanceMeasuresUrl + query_id);
+    return this.http.get<RelevanceMeasures>(appGlobals.serverAddress + '/relevanceMeasures/single/' + query_id);
   }
 
   calculateRecall(query_id: string): Observable<RelevanceMeasures> {
     return this.http.get<RelevanceMeasures>(appGlobals.serverAddress + '/relevanceMeasures/getRecall/' + query_id);
+  }
+
+  calculatePrecision(query_id: string): Observable<RelevanceMeasures> {
+    return this.http.get<RelevanceMeasures>(appGlobals.serverAddress + '/relevanceMeasures/getPrecision/' + query_id);
   }
 }

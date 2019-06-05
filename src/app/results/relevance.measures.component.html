@@ -48,7 +48,7 @@
             </div>
             <div class="ui-g" style="font-size: large;">
               <div class="ui-g-4">Recall Score:</div>
-              <div class="ui-g-4">{{relevanceMeasure.recall | percent}}</div>
+              <div class="ui-g-4">{{relevanceMeasure.recall | percent : '1.1-2'}}</div>
             </div>
           </div>
           <div *ngIf="relevanceMeasure.number_test_entries == 0">
@@ -80,14 +80,14 @@
           </div>
           <div class="ui-g" *ngIf="relevanceMeasure.number_sample_entries != 0">
             <div class="ui-g-4">Precision Score:</div>
-            <div class="ui-g-4">{{relevanceMeasure.precision | percent}}</div>
+            <div class="ui-g-4">{{relevanceMeasure.precision | percent : '1.1-2'}}</div>
           </div>
         </div>
       </div>
     </div>
     <div class="ui-g-10 ui-g-offset-1">
       <div class="tile">
-        <h1>Overall F-measure: {{2* (relevanceMeasure.recall * relevanceMeasure.precision) / (relevanceMeasure.recall + relevanceMeasure.precision)}}</h1>
+        <h1>Overall F-measure: {{ (2* (relevanceMeasure.recall * relevanceMeasure.precision) / (relevanceMeasure.recall + relevanceMeasure.precision)) | percent : '1.1-2'}}</h1>
       </div>
     </div>
   </div>
