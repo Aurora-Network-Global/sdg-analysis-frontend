@@ -4,6 +4,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Query} from '../model/Query';
 import * as appGlobals from '../app.globals';
 import {ProjectService} from '../services/project.service';
+import {MessageService} from 'primeng/api';
+import {ClipboardService} from 'ngx-clipboard';
 
 @Component({
   selector: 'app-queries',
@@ -25,7 +27,9 @@ export class QueriesComponent implements OnInit {
               private router: Router,
               public projectService: ProjectService,
               private queryService: QueryService,
-              private fileservice: QueryService) {
+              private fileservice: QueryService,
+              private messageService: MessageService,
+              private clipboardService: ClipboardService) {
   }
 
   ngOnInit() {
@@ -68,13 +72,15 @@ export class QueriesComponent implements OnInit {
     );
   }
 
-  goToTarget(target) {
+  copySearchString(target) {
     this.queryService.getSearchString(this.queryId, target).subscribe(
       text => {
-        const targetUrl = 'https://www.scopus.com/results/results.uri?sort=plf-f&src=s&sot=a&sdt=a&sl=18&s=' + encodeURI(text) +
-          '&origin=searchadvanced&editSaveSearch=';
-        window.open(targetUrl);
+        this.clipboardService.copyFromContent(text);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Search copied',
+          detail: 'The Scopus search string was copied to the clipboard'
+        });
+      });
       }
-    );
-  }
 }

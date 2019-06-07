@@ -35,6 +35,15 @@ h2 {
   text-align: center;
 }
 
+.footer-link {
+  color: #2b542c;
+}
+
+a.footer-link:hover {
+  color: #dddddd;
+}
+
+
 .content-start {
   min-height: calc(100vh - 70px);
 }

@@ -13,6 +13,7 @@
   </span>
 </nav>
 <div class="content">
+  <p-toast [style]="{marginTop: '80px'}"></p-toast>
   <div *ngIf="!loading" class="ui-g">
     <div class="ui-g-10 ui-g-offset-1">
       <div class="tile">
@@ -23,9 +24,10 @@
       <div class="tile">
         <p class="description">
           Define the individual fields for your query. When finished press "Save". For validating the created
-          <a href="https://www.scopus.com">Scopus</a> search string, press "See Scopus search".
+          <a href="https://www.scopus.com">Scopus</a> search string, press "Copy Scopus search" to copy the search string to the clipboard.
+          Open the advanced search in <a href="https://www.scopus.com">Scopus</a> and paste the clipboard contents by pressing Strg-v.
           When the query is defined, go forward to the EID collection page by clicking "To EIDs".
-           To see the results, press "See results".</p>
+         </p>
       </div>
     </div>
     <div class="ui-g-10 ui-g-offset-1" style="text-align: left">
@@ -120,8 +122,8 @@
           </div>
           <div class="ui-g-2">
             <button [disabled]="!projectService.activeProject.isQueryDefined" pButton type="button"
-                    class="ui-button ui-button-danger footer" label="See in Scopus" icon="fa-run"
-                    (click)="goToTarget('scopus')"></button>
+                    class="ui-button ui-button-danger footer" label="Copy Scopus search" icon="fa-run"
+                    (click)="copySearchString('scopus')"></button>
           </div>
           <div class="ui-g-2">
           </div>

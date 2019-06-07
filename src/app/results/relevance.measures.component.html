@@ -25,11 +25,13 @@
     <div class="ui-g-5 ui-g-offset-1">
       <div class="tile centered">
         <h3>Recall</h3>
-        <p>First upload list (simple txt-file) of test EIDs which should be contained in the results set by pressing
-          "Upload" and selecting the txt-file.</p>
+        <p class="description">Upload a list (simple txt-file) of test EIDs which should be contained in the results set by pressing
+          "Upload" and selecting the txt-file.
+          Press the button again to upload the file.
+        </p>
         <p-fileUpload mode="basic" name="test-file" url="{{testUploadUrl}}" accept="text/*"
                       chooseLabel="Upload"></p-fileUpload>
-        <p>Then press "Calculate" to get the recall measures based on these test-entries.</p>
+        <p class="description">Then press "Calculate" to get the recall measures based on these test entries.</p>
         <button pButton type="button" class="ui-button" label="Calculate"
                 (click)="calculateRecall()"></button>
         <div *ngIf="relevanceMeasure">
@@ -52,7 +54,7 @@
             </div>
           </div>
           <div *ngIf="relevanceMeasure.number_test_entries == 0">
-            <p>No test data provided! Please upload a list of test EIDs.</p>
+            <p class="description">No test data provided! Please upload a list of test EIDs.</p>
           </div>
         </div>
       </div>
@@ -62,12 +64,14 @@
       <div class="tile centered">
         <div *ngIf="relevanceMeasure">
           <h3>Precision</h3>
-          <p>First upload list of comma separated values (e.g. the sample EIDs from the previous page) containing the
+          <p class="description">Upload list of comma separated values (e.g. the sample EIDs from the previous page) containing the
             sample EIDs and the judgement, whether this EID should be contained in the results set. Press the "Upload"
-            Button and select the corresponding csv-file.</p>
-          <p-fileUpload mode="basic" name="sample-judgement-file" url="{{sampleUploadUrl}}" accept="text/*"
+            Button and select the corresponding csv-file.
+            Press the button again to upload the file.
+          </p>
+          <p-fileUpload mode="basic" name="sample-judgement-file" url="{{sampleUploadUrl}}" accept=".csv"
                         chooseLabel="Upload"></p-fileUpload>
-          <p>Then press "Calculate" to get the precision measures based on these judgements.</p>
+          <p class="description">Then press "Calculate" to get the precision measures based on these judgements.</p>
           <button pButton type="button" class="ui-button" label="Calculate"
                   (click)="calculatePrecision()"></button>
           <div class="ui-g" *ngIf="relevanceMeasure.number_sample_entries != 0">
@@ -88,6 +92,11 @@
     <div class="ui-g-10 ui-g-offset-1">
       <div class="tile">
         <h1>Overall F-measure: {{ (2* (relevanceMeasure.recall * relevanceMeasure.precision) / (relevanceMeasure.recall + relevanceMeasure.precision)) | percent : '1.1-2'}}</h1>
+      </div>
+    </div>
+    <div class="ui-g-10 ui-g-offset-1">
+      <div class="tile centered">
+        <p class="description">Once the query is sufficiently validated, proceed to the collection of the full records by pressing "Records page".</p>
       </div>
     </div>
   </div>

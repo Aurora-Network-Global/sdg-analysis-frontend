@@ -15,8 +15,8 @@
 </nav>
 
 <div class="content">
+  <p-toast [style]="{marginTop: '80px'}"></p-toast>
   <div *ngIf="!loading" class="ui-g">
-
     <div class="ui-g-10 ui-g-offset-1">
       <div class="tile">
         <h1>EID Collection for "{{projectService.activeProject.name}}"</h1>
@@ -29,9 +29,12 @@
         <p class="description">
           Press "Run query" to execute the defined query and collect the list of EIDs. Depending on the number of
           results this can take quite a while.
-          After successful collection the list of all EIDs can be accessed by clicking "Complete list".
+          After successful collection the list of all EIDs can be downloaded by clicking "Complete list".
           Press. Press "Random sample list" to download a list of randomly chosen EIDs. The number of random EIDs can
-          be altered using the input field. The default value is 100.
+          be altered using the input field. The default value is 100. Press "Copy Scopus search" to copy the search string for the defined number of sample eids to the clipboard.
+          Open the advanced search in <a href="https://www.scopus.com">Scopus</a> and paste the clipboard contents by pressing Strg-v.
+
+          Press "Relevance page" to validate your obtained query results.
         </p>
         <p *ngIf="projectService.activeProject.isEidsCollected" class="description">EIDs have been collected.</p>
         <div class="ui-g-3">
@@ -52,8 +55,8 @@
         <div class="ui-g-2">
           <button pButton [disabled]="!this.projectService.activeProject.isEidsCollected" type="button"
                   class="ui-button"
-                  label="see in Scopus"
-                  (click)="goToScopusSearch()"></button>
+                  label="Copy Scopus search"
+                  (click)="copyScopuSearch()"></button>
         </div>
       </div>
     </div>

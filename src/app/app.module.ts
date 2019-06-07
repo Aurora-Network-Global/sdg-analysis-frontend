@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
-import {DropdownModule, InputTextModule, MessagesModule} from 'primeng/primeng';
+import {DropdownModule, InputTextModule, MessageService, MessagesModule} from 'primeng/primeng';
 import {ButtonModule} from 'primeng/button';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
@@ -13,6 +13,8 @@ import {RunnerService} from './services/runner.service';
 import {ResultsService} from './services/results.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ProjectService} from './services/project.service';
+import {ClipboardModule, ClipboardService} from 'ngx-clipboard';
+import {ToastModule} from 'primeng/toast';
 
 
 @NgModule({
@@ -26,11 +28,14 @@ import {ProjectService} from './services/project.service';
     FormsModule,
     HttpClientModule,
     BrowserModule,
+    MessagesModule,
+    ClipboardModule,
+    ToastModule,
     DropdownModule,
     BrowserAnimationsModule,
     appRouting
   ],
-  providers: [HttpClientModule, QueryService, RunnerService, ResultsService, ProjectService],
+  providers: [HttpClientModule, QueryService, RunnerService, ResultsService, ProjectService, ClipboardService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

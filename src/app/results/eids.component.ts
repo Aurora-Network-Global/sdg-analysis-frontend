@@ -5,6 +5,8 @@ import {ProjectService} from '../services/project.service';
 import {RunnerService} from '../services/runner.service';
 import {EidsService} from '../services/eids.service';
 import {interval} from 'rxjs/internal/observable/interval';
+import {ClipboardService} from 'ngx-clipboard';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-eids',
@@ -29,7 +31,9 @@ export class EidsComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               public projectService: ProjectService,
               private runnerService: RunnerService,
-              private eidsService: EidsService) {
+              private eidsService: EidsService,
+              private clipboardService: ClipboardService,
+              private messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -64,6 +68,18 @@ export class EidsComponent implements OnInit {
     );
   }
 
+  copyScopuSearch() {
+    this.eidsService.getSampleScopusSearchString(this.queryId, this.sampleSize).subscribe(
+      data => {
+        this.clipboardService.copyFromContent(data);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Search copied',
+          detail: 'The Scopus search string was copied to the clipboard'
+        });
+      });
+  }
+
   downloadEids() {
     window.open(this.eidsUrl + '/all/' + this.queryId, '_blank');
   }
@@ -78,15 +94,5 @@ export class EidsComponent implements OnInit {
     this.timer = interval(2000).subscribe(() => {
       this.updateProject();
     });
-  }
-
-  goToScopusSearch() {
-    this.eidsService.getSampleScopusSearchString(this.queryId, this.sampleSize).subscribe(
-      data => {
-        const url = 'https://www.scopus.com/results/results.uri?sort=plf-f&src=s&sot=a&sdt=a&sl=18&s=' + encodeURI(data) +
-          '&origin=searchadvanced&editSaveSearch=';
-        window.open(url);
-      }
-    );
   }
 }

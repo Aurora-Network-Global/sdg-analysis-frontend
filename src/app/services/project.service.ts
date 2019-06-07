@@ -23,6 +23,6 @@ export class ProjectService {
   }
 
   saveActiveProject(): Observable<Project> {
-    return this.http.post<Project>(this.projectUrl, JSON.stringify(this.activeProject), {headers: appGlobals.headers});
+    return this.http.post<Project>(this.projectUrl + '/new', JSON.stringify(this.activeProject), {headers: appGlobals.headers});
   }
 }
