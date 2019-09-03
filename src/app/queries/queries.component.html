@@ -126,6 +126,10 @@
                     (click)="copySearchString('scopus')"></button>
           </div>
           <div class="ui-g-2">
+            <button pButton type="button" class="ui-button-danger footer"
+                    label="Upload Facettes"
+                    icon="fa-forward"
+                    [routerLink]="['/facettes', queryId]"></button>
           </div>
           <div class="ui-g-2">
             <button pButton type="button" class="ui-button-danger footer"
