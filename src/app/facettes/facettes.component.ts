@@ -13,7 +13,7 @@ import {ClipboardService} from 'ngx-clipboard';
 })
 export class FacettesComponent implements OnInit {
 
-  private queryId: string;
+  public queryId: string;
 
   public uploadUrlJournals: string;
 
