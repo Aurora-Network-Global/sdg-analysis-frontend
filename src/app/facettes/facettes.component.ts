@@ -1,11 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {QueryService} from '../services/query.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Query} from '../model/Query';
+import {ActivatedRoute} from '@angular/router';
 import * as appGlobals from '../app.globals';
 import {ProjectService} from '../services/project.service';
-import {MessageService} from 'primeng/api';
-import {ClipboardService} from 'ngx-clipboard';
 
 @Component({
   selector: 'app-queries',
@@ -16,8 +12,6 @@ export class FacettesComponent implements OnInit {
   public queryId: string;
 
   public uploadUrlJournals: string;
-
-  public uploadUrlKeywords: string;
 
   loading: boolean;
 
@@ -30,8 +24,7 @@ export class FacettesComponent implements OnInit {
     this.route.params.subscribe(
       params => {
         this.queryId = params['queryId'];
-        this.uploadUrlJournals =  appGlobals.serverAddress + '/facettes/journal/' + this.queryId;
-        this.uploadUrlKeywords =  appGlobals.serverAddress + '/facettes/keyword/' + this.queryId;
+        this.uploadUrlJournals =  appGlobals.serverAddress + '/facettes/upload/' + this.queryId;
         if (this.projectService.activeProject == null) {
           this.projectService.getProject(this.queryId).subscribe(
             data => {

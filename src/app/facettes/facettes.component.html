@@ -18,25 +18,16 @@
       <div class="tile">
         <h2>Upload Facettes Data</h2>
         <p class="description">
-          To include the most common journals and keywords in the evaluation, the scopus exports of the corresponding
-          analyze search result pages can be included.
+          To include the most common journals and keywords in the evaluation, the scopus refine options can be exported
+          and uploaded into the system.
         </p>
       </div>
     </div>
     <div class="ui-g-10 ui-g-offset-1">
       <div class="tile">
-        <h2>Upload Journal Data</h2>
+        <h2>Upload Facet Data</h2>
         <div class="centered">
-          <p-fileUpload mode="basic" name="journal-facettes" url="{{uploadUrlJournals}}" accept=".csv"
-                        chooseLabel="Upload"></p-fileUpload>
-        </div>
-      </div>
-    </div>
-    <div class="ui-g-10 ui-g-offset-1">
-      <div class="tile">
-        <h2>Upload Keyword Data</h2>
-        <div class="centered">
-          <p-fileUpload mode="basic" name="journal-facettes" url="{{uploadUrlKeywords}}" accept=".csv"
+          <p-fileUpload mode="basic" name="facettes" url="{{uploadUrlJournals}}" accept=".csv"
                         chooseLabel="Upload"></p-fileUpload>
         </div>
       </div>
