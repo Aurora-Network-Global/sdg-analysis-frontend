@@ -36,8 +36,10 @@ export class FacettesComponent implements OnInit {
           this.projectService.getProject(this.queryId).subscribe(
             data => {
               this.projectService.activeProject = data;
+              this.loading = false;
             }
           );
+        } else {
           this.loading = false;
         }
       }
