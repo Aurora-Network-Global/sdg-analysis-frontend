@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {KeywordFrequency} from '../model/KeywordFrequency';
 import * as appGlobals from '../app.globals';
 import {RelevanceMeasures} from '../model/RelevanceMeasures';
+import {SurveyResults} from '../model/SurveyResults';
 
 @Injectable()
 export class ResultsService {
@@ -25,5 +26,9 @@ export class ResultsService {
 
   calculatePrecision(query_id: string): Observable<RelevanceMeasures> {
     return this.http.get<RelevanceMeasures>(appGlobals.serverAddress + '/relevanceMeasures/getPrecision/' + query_id);
+  }
+
+  getSurveyResults(query_id: string): Observable<SurveyResults[]> {
+    return this.http.get<SurveyResults[]>(appGlobals.serverAddress + '/survey_analyzer/import/' + query_id);
   }
 }

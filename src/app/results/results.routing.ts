@@ -5,6 +5,7 @@ import {RecordsComponent} from './records.component';
 import {KeywordsComponent} from './keywords.component';
 import {ScivalComponent} from './scival.component';
 import {RelevanceMeasuresComponent} from './relevance.measures.component';
+import {SurveyComponent} from './survey.component';
 
 
 const routes: Routes = [
@@ -12,7 +13,8 @@ const routes: Routes = [
   {path: 'records/:queryId', component: RecordsComponent},
   {path: 'keywords/:queryId', component: KeywordsComponent},
   {path: 'relevance/:queryId', component: RelevanceMeasuresComponent},
-  {path: 'scival/:queryId', component: ScivalComponent}
+  {path: 'scival/:queryId', component: ScivalComponent},
+  {path: 'survey/:queryId', component: SurveyComponent}
 ];
 
 export const resultsRouting: ModuleWithProviders = RouterModule.forChild(routes);

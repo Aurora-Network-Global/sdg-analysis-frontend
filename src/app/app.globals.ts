@@ -18,6 +18,9 @@ export const resultsPages = [{
 }, {
   key: 'scival',
   title: 'Scival'
+}, {
+  key: 'survey',
+  title: 'Survey'
 }];
 
 export const queryUrl = serverAddress + '/query/';
