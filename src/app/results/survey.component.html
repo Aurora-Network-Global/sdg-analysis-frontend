@@ -31,6 +31,12 @@
                         chooseLabel="Upload" (onBeforeUpload)="importing=true;" [auto]="true"
                         (onUpload)="collectSurveyResponses()"></p-fileUpload>
         </div>
+        <h2>Collect by API</h2>
+        <div class="centered">
+          <label for="surveyId">Bitte die Umfrage-ID angeben</label>
+          <input id="surveyId" type="text" pInputText [(ngModel)]="surveyId"/>
+          <button pButton type="button" label="Collect" class="ui-button" (click)="collectForSurveyId()"></button>
+        </div>
       </div>
     </div>
     <div *ngIf="results.length > 0" class="ui-g-10 ui-g-offset-1">

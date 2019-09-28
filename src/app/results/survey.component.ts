@@ -22,6 +22,8 @@ export class SurveyComponent implements OnInit {
 
   public results: SurveyResults[] = [];
 
+  public surveyId = '';
+
   public selectedKeywordList: KeywordFrequency[] = [];
 
   public selectedJournalList: KeywordFrequency[] = [];
@@ -84,6 +86,15 @@ export class SurveyComponent implements OnInit {
     );
   }
 
+  collectForSurveyId() {
+    this.importing = false;
+    this.resultsService.getSurveyResultsForId(this.queryId, this.surveyId).subscribe(
+      data => {
+        this.results = data;
+        this.countResults();
+        this.loading = false;
+      });
+  }
 
   collectSurveyResponses() {
     this.importing = false;
