@@ -4,7 +4,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {EidsComponent} from './eids.component';
 import {resultsRouting} from './results.routing';
-import {FileUploadModule, MessageModule, MessagesModule} from 'primeng/primeng';
+import {FileUploadModule, InputTextModule, MessageModule, MessagesModule} from 'primeng/primeng';
 import {SpinnerModule} from 'primeng/spinner';
 import {TableModule} from 'primeng/table';
 import {RecordsComponent} from './records.component';
@@ -26,6 +26,7 @@ import {SurveyComponent} from './survey.component';
     ToastModule,
     ClipboardModule,
     FormsModule,
+    InputTextModule,
     FileUploadModule,
     SpinnerModule,
     TableModule,
