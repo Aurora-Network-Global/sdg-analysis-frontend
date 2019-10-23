@@ -165,10 +165,10 @@ export class SurveyComponent implements OnInit {
       (entry, key) => this.selectedKeywordList.push(new KeywordFrequency(entry, key))
     );
     this.rejectedArticles.forEach(
-      (entry, key) => this.acceptedArticlelList.push(new KeywordFrequency(entry, key))
+      (entry, key) => this.rejectedArticleList.push(new KeywordFrequency(entry, key))
     );
     this.acceptedArticles.forEach(
-      (entry, key) => this.rejectedArticleList.push(new KeywordFrequency(entry, key))
+      (entry, key) => this.acceptedArticlelList.push(new KeywordFrequency(entry, key))
     );
   }
 
