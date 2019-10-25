@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProjectService} from '../services/project.service';
 import {ResultsService} from '../services/results.service';
 import * as appGlobals from '../app.globals';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {SurveyResults} from '../model/SurveyResults';
 import {KeywordFrequency} from '../model/KeywordFrequency';
 import {ClipboardService} from 'ngx-clipboard';
@@ -66,7 +66,11 @@ export class SurveyComponent implements OnInit {
     this.route.params.subscribe(
       params => {
         this.queryId = params['queryId'];
-        this.surveyId = params['surveyId'];
+        this.route.queryParams.subscribe((queryParams: Params) => {
+          if (queryParams['surveyId'] !== undefined) {
+            this.surveyId = queryParams['surveyId'];
+          }
+        });
         this.uploadUrl = this.uploadUrl + this.queryId;
         if (this.projectService.activeProject == null) {
           this.updateProject();
