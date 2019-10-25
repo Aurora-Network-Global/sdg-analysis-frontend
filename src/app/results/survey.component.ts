@@ -66,6 +66,7 @@ export class SurveyComponent implements OnInit {
     this.route.params.subscribe(
       params => {
         this.queryId = params['queryId'];
+        this.surveyId = params['surveyId'];
         this.uploadUrl = this.uploadUrl + this.queryId;
         if (this.projectService.activeProject == null) {
           this.updateProject();
