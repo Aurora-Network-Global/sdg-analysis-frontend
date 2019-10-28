@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {QueriesComponent} from './queries.component';
+import {FacettesComponent} from './facettes.component';
 import {FileUploadModule, InputTextareaModule, InputTextModule, ProgressBarModule} from 'primeng/primeng';
-import {queriesRouting} from './queries.routing';
+import {facettesRouting} from './facettes.routing';
 import {ButtonModule} from 'primeng/button';
 import {ClipboardModule, ClipboardService} from 'ngx-clipboard';
 import {ToastModule} from 'primeng/toast';
@@ -20,12 +20,12 @@ import {ToastModule} from 'primeng/toast';
     FileUploadModule,
     ProgressBarModule,
     ClipboardModule,
-    queriesRouting,
+    facettesRouting,
     ToastModule
   ],
-  declarations: [QueriesComponent],
-  exports: [QueriesComponent],
+  declarations: [FacettesComponent],
+  exports: [FacettesComponent],
   providers: [ClipboardService]
 })
 
-export class QueriesModule {}
+export class FacettesModule {}

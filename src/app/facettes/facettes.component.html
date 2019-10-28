@@ -1,0 +1,51 @@
+<nav class="navbar">
+  <a class="navbar-brand" style="height: 50px;" href="https://aurora-network.global/">AurorA</a>
+  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px"
+          label="Start" [routerLink]="['/start']"></button>
+  >>
+  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="Query"
+          [routerLink]="['/queries', queryId]"></button>
+</nav>
+<div class="content">
+  <div *ngIf="!loading" class="ui-g">
+
+    <div class="ui-g-10 ui-g-offset-1">
+      <div class="tile">
+        <h1>Facettes-Upload for "{{projectService.activeProject.name}}"</h1>
+      </div>
+    </div>
+    <div class="ui-g-10 ui-g-offset-1">
+      <div class="tile">
+        <h2>Upload Facettes Data</h2>
+        <p class="description">
+          To include the most common journals and keywords in the evaluation, the scopus refine options can be exported
+          and uploaded into the system.
+        </p>
+      </div>
+    </div>
+    <div class="ui-g-10 ui-g-offset-1">
+      <div class="tile">
+        <h2>Upload Facet Data</h2>
+        <div class="centered">
+          <p-fileUpload mode="basic" name="facettes" url="{{uploadUrlJournals}}" accept=".csv"
+                        chooseLabel="Upload"></p-fileUpload>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="footer">
+  <div class="ui-g">
+    <div class="ui-g-2">
+      <h3>Actions:</h3>
+    </div>
+    <div class="ui-g-2">
+      <button pButton type="button" class="ui-button-danger footer"
+              label="Back to query"
+              icon="fa-backward"
+              [routerLink]="['/queries', queryId]"></button>
+    </div>
+    <div class="ui-g-6">
+    </div>
+  </div>
+</footer>

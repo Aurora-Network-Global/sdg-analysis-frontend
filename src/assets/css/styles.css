@@ -8,7 +8,6 @@
   width: 100%;
   padding: 10px;
   vertical-align: middle;
-  text-align:center;
 
 }
 .tile-top {
@@ -19,8 +18,84 @@
   border-radius: 0px 0px 25px 25px;
 }
 
-.ui-button {
-  height: 50px;
+.description {
+  font-size: large;
+  text-align:center;
+}
+
+h1 {
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+}
+
+.centered {
+  text-align: center;
+}
+
+.footer-link {
+  color: #2b542c;
+}
+
+a.footer-link:hover {
+  color: #dddddd;
+}
+
+
+.content-start {
+  min-height: calc(100vh - 70px);
+}
+
+.content {
+  min-height: calc(100vh - 160px);
+}
+
+.footer-start {
+  background-color: #49B05C;
+  float: left;
+  opacity: 0.9;
+  color: #ffffff;
+  width: 100%;
   padding: 10px;
+  vertical-align: middle;
+  text-align: center;
+  font-size: larger;
+  height: 50px;
+}
+
+.footer {
+  background-color: #49B05C;
+  float: left;
+  opacity: 0.9;
+  color: #ffffff;
+  width: 100%;
+  padding: 5px;
+  vertical-align: middle;
+  text-align: center;
+  font-size: larger;
+  height: 80px;
+}
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-bottom: 50px;
+}
+
+.navbar {
+  background-color: #49B05C;
+  opacity: 0.9;
+  color: #ffffff;
+}
+
+.navbar-brand  {
+  color: #ffffff;
   font-size: x-large;
+  font-weight: bold;
+}
+
+button.footer {
+  height: 50px;
+  width: 200px;
 }

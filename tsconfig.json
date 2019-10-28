@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "importHelpers": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -14,6 +15,12 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "core-js/es6/*": ["../node_modules/core-js/es/*"],
+      "core-js/es7/reflect": ["../node_modules/core-js/proposals/reflect-metadata"]
+    },
+    "module": "es2015",
+    "baseUrl": "./"
   }
 }

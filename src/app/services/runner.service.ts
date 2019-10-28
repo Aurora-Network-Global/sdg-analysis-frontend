@@ -1,21 +1,24 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import * as appGlobals from '../app.globals';
-import {Query} from '../model/Query';
 import {Status} from '../model/Status';
 
 @Injectable()
 export class RunnerService {
 
-    constructor(private http: HttpClient) {
-    }
+  constructor(private http: HttpClient) {
+  }
 
-    runQuery(query: Query, query_id: string): Observable<string> {
-      return this.http.post<string>(appGlobals.runQueryUrl + query_id, JSON.stringify(query), {headers: appGlobals.headers});
-    }
+  runQuery(queryId: string): Observable<string> {
+    return this.http.post<string>(appGlobals.serverAddress + '/query/execution/' + queryId, {}, {headers: appGlobals.headers});
+  }
 
-    getStatus(query_id): Observable<Status> {
-      return this.http.get<Status>(appGlobals.statusUrl + query_id);
-    }
+  getStatus(queryId): Observable<Status> {
+    return this.http.get<Status>(appGlobals.statusUrl + queryId);
+  }
+
+  collectData(queryId: string): Observable<string> {
+    return this.http.post<string>(appGlobals.serverAddress + '/collect_data/' + queryId, {}, {headers: appGlobals.headers});
+  }
 }

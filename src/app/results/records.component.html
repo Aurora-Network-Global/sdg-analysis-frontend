@@ -1,0 +1,81 @@
+<nav class="navbar">
+  <a class="navbar-brand" style="height: 50px;" href="https://aurora-network.global/">AurorA</a>
+
+  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px"
+          label="Start" [routerLink]="['/start']"></button>
+  >>
+  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="Query"
+          [routerLink]="['/queries', queryId]"></button>
+  >>
+  <span *ngFor="let page of resultPages">
+  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="{{page.title}}"
+          [routerLink]="['/results/' + page.key, queryId]"></button>
+  >>
+  </span>
+</nav>
+<div class="content">
+  <div *ngIf="!loading" class="ui-g">
+    <div class="ui-g-10 ui-g-offset-1">
+      <div class="tile">
+        <h1>Full Records for "{{projectService.activeProject.name}}"</h1>
+      </div>
+    </div>
+    <div class="ui-g-10 ui-g-offset-1">
+      <div class="tile">
+        <h2>Download full records</h2>
+        <p class="description">
+          Collection of full records for the individual EIDs.
+          After all EIDs have been collected, the full data set for each publication is retrieved by clicking "Collect full data".
+          Where available, data from Altmetric and Unpaywall are collected as well.
+          Further analysis can be performed once the data have been collected.
+        </p>
+        <p class="description">
+        <span style="font-weight: bold; color: darkred;">Warning:</span> The collection of full data can take very long and can be subject to licencing limitations.
+        Please check the usage conditions of your Scopus licencing agreement for further information.
+        </p>
+      </div>
+    </div>
+    <div class="ui-g-10 ui-g-offset-1">
+      <div class="tile">
+        <h3 class="centered">Data collection progress</h3>
+        <p *ngIf="projectService.activeProject.isDataCollected" class="description">Data have already been collected. Do you want to recollect?</p>
+        <p-progressBar *ngIf="progress" [value]="progress"></p-progressBar>
+        <p> {{progress / 100 | percent : '1.1-2'}} data have been collected.</p>
+
+      </div>
+    </div>
+    <div class="ui-g-10 ui-g-offset-1">
+      <div class="tile centered">
+        <p class="description">Once the full data have been successfully collected, proceed to the analysis of the obtained keywords by pressing "Keywords page".</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="ui-g">
+    <div class="ui-g-2">
+      <h3>Actions:</h3>
+    </div>
+    <div class="ui-g-2">
+      <button pButton type="button" class="ui-button-danger footer"
+              label="EIDs page"
+              icon="fa-backward"
+              [routerLink]="['/results/relevance', queryId]"></button>
+    </div>
+    <div class="ui-g-2">
+      <button [disabled]="!projectService.activeProject.isEidsCollected" pButton type="button"
+              class="ui-button-danger footer" label="Collect full data" icon="fa-forward"
+              (click)="collectData()"></button>
+    </div>
+    <div class="ui-g-4">
+    </div>
+    <div class="ui-g-2">
+       <button pButton type="button" class="ui-button-danger footer"
+               label="Keywords page"
+               icon="fa-forward"
+               [routerLink]="['/results/keywords', queryId]"></button>
+     </div>
+  </div>
+</footer>

@@ -1,11 +1,14 @@
 export class Project {
 
-  public is_query_defined = false;
-  public is_query_run = false;
-  public is_testdata = false;
-  public is_scivaldata_uploaded = false;
-  public is_eidslist = false;
-  public is_index_present = false;
+  public isQueryDefined = false;
+  public isDataCollected = false;
+  public isDataCollecting = false;
+  public isEidsCollected = false;
+  public isEidsCollecting = false;
+  public isTestdata = false;
+  public isEidslist = false;
+  public isIndexPresent = false;
+  public isScivalData = false;
 
   constructor(public name: string,
               public project_id: string) {

@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {FileService} from '../services/file.service';
+import {QueryService} from '../services/query.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Query} from '../model/Query';
 import * as appGlobals from '../app.globals';
-import {RunnerService} from '../services/runner.service';
-import {IntervalObservable} from 'rxjs/observable/IntervalObservable';
-import {Status} from '../model/Status';
 import {ProjectService} from '../services/project.service';
+import {MessageService} from 'primeng/api';
+import {ClipboardService} from 'ngx-clipboard';
 
 @Component({
   selector: 'app-queries',
@@ -14,42 +13,38 @@ import {ProjectService} from '../services/project.service';
 })
 export class QueriesComponent implements OnInit {
 
-  query_id: string;
+  queryId: string;
 
   query: Query;
 
   loading: boolean;
 
-  isQueryRunning: boolean;
-
-  timer: any;
-
-  status: Status;
-
-  uploadUrl: string;
-
   progress: number;
+
+  resultPages = appGlobals.resultsPages;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               public projectService: ProjectService,
-              private fileservice: FileService,
-              private runnerService: RunnerService) {
+              private queryService: QueryService,
+              private fileservice: QueryService,
+              private messageService: MessageService,
+              private clipboardService: ClipboardService) {
   }
 
   ngOnInit() {
     this.loading = true;
-    this.status = null;
     this.route.params.subscribe(
       params => {
-        this.query_id = params['query_id'];
+        this.queryId = params['queryId'];
         if (this.projectService.activeProject == null) {
-          this.projectService.getproject(this.query_id).subscribe(
-            data => this.projectService.activeProject = data
+          this.projectService.getProject(this.queryId).subscribe(
+            data => {
+              this.projectService.activeProject = data;
+            }
           );
         }
-        this.uploadUrl = appGlobals.uploadTestDataUrl + this.query_id;
-        this.fileservice.getQuery(this.query_id).subscribe(
+        this.fileservice.getQuery(this.queryId).subscribe(
           data => {
             this.query = data;
             this.loading = false;
@@ -60,50 +55,32 @@ export class QueriesComponent implements OnInit {
   }
 
   save() {
-    this.fileservice.saveQuery(this.query, this.query_id).subscribe(
+    this.fileservice.saveQuery(this.query, this.queryId).subscribe(
       data => {
         this.query = data;
-        this.projectService.activeProject.is_query_defined = true;
-        this.projectService.saveActiveProject().subscribe(project => this.projectService.activeProject = project);
+        if (!this.projectService.activeProject.isQueryDefined) {
+          this.projectService.activeProject.isQueryDefined = true;
+          this.saveProject();
+        }
       }
     );
   }
 
-  getScopusSearchString() {
-    const url = appGlobals.getScopusSearchString + this.query_id;
-    window.open(url, '_blank');
-  }
-
-  runQuery() {
-    this.save();
-    this.isQueryRunning = true;
-    this.projectService.activeProject.is_query_run = false;
-    this.runnerService.runQuery(this.query, this.query_id).subscribe();
-    this.timer = IntervalObservable.create(2000).subscribe(() => {
-      this.getStatus();
-    });
-  }
-
-  getStatus() {
-    this.runnerService.getStatus(this.query_id).subscribe(
-      data => {
-        this.status = data;
-      }
+  saveProject() {
+    this.projectService.saveActiveProject().subscribe(
+      project => this.projectService.activeProject = project
     );
-    if (this.status && !this.projectService.activeProject.is_query_run) {
-      if (this.status.progress && this.status.total){
-        this.progress = Math.round(this.status.progress / this.status.total * 100);
-      } else {
-        this.progress = 0;
-      }
-      if (this.status.status === 'FINISHED') {
-        this.timer.unsubscribe();
-        this.isQueryRunning = false;
-        this.projectService.activeProject.is_query_run = true;
-      } else if (this.status.status === 'ERROR') {
-        this.timer.unsubscribe();
-        this.isQueryRunning = false;
-      }
-    }
   }
+
+  copySearchString(target) {
+    this.queryService.getSearchString(this.queryId, target).subscribe(
+      text => {
+        this.clipboardService.copyFromContent(text);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Search copied',
+          detail: 'The Scopus search string was copied to the clipboard'
+        });
+      });
+      }
 }
