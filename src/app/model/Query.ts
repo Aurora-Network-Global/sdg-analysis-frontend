@@ -1,13 +1,16 @@
+import {QueryDefintions} from './QueryDefinitions';
+
 export class Query {
 
   constructor(
-      public affiliation_id: string,
-      public author_id: string,
-      public author_name: string,
-      public subject: string,
       public title: string,
-      public topic: string,
-      public start_year: string,
-      public end_year: string
+      public identifier: string,
+      public description: string,
+      public creator: string,
+      public contributor: string,
+      public date_modified: string,
+      public licence: string,
+      public licence_href: string,
+      public query_definitions: QueryDefintions
   ) { }
 }

@@ -3,6 +3,7 @@ import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import * as appGlobals from '../app.globals';
 import {Project} from '../model/Project';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class ProjectService {
@@ -15,7 +16,7 @@ export class ProjectService {
   }
 
   listProjects(): Observable<Project[]> {
-    return this.http.get<Project[]>(this.projectUrl + '/all');
+    return this.http.get<Project[]>(this.projectUrl + '/all').pipe(map(entry => entry['projects']));
   }
 
   getProject(project_id: string): Observable<Project> {

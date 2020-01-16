@@ -5,16 +5,17 @@ import {FormsModule} from '@angular/forms';
 import {StartComponent} from './start.component';
 import {startRouting} from './start.routing';
 import {ButtonModule} from 'primeng/button';
-import {AutoCompleteModule, DropdownModule} from 'primeng/primeng';
+import {AutoCompleteModule} from 'primeng/autocomplete';
+import {DropdownModule} from 'primeng/dropdown';
 
 @NgModule({
   imports: [
     RouterModule,
+    DropdownModule,
     CommonModule,
     FormsModule,
     ButtonModule,
     AutoCompleteModule,
-    DropdownModule,
     startRouting
   ],
   declarations: [StartComponent],

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {QueryService} from '../services/query.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Query} from '../model/Query';
+import {QueryOld} from '../model/QueryOld';
 import * as appGlobals from '../app.globals';
 import {ProjectService} from '../services/project.service';
 import {MessageService} from 'primeng/api';
@@ -15,7 +15,7 @@ export class QueriesComponent implements OnInit {
 
   queryId: string;
 
-  query: Query;
+  query: QueryOld;
 
   loading: boolean;
 
@@ -74,8 +74,8 @@ export class QueriesComponent implements OnInit {
 
   copySearchString(target) {
     this.queryService.getSearchString(this.queryId, target).subscribe(
-      text => {
-        this.clipboardService.copyFromContent(text);
+      scopusqueries => {
+        this.clipboardService.copyFromContent(scopusqueries.overall);
         this.messageService.add({
           severity: 'success',
           summary: 'Search copied',

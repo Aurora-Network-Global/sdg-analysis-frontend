@@ -99,3 +99,17 @@ button.footer {
   height: 50px;
   width: 200px;
 }
+
+textarea.form-tile {
+  width: 100%;
+  background-color: #59C06C;
+  color: white;
+  border-width: 0;
+}
+
+input.form-tile {
+  width: 100%;
+  background-color: #59C06C;
+  color: white;
+  border-width: 0;
+}

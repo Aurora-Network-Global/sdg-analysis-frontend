@@ -24,7 +24,7 @@ export const resultsPages = [{
 }];
 
 export const queryUrl = serverAddress + '/query/';
-export const statusUrl = serverAddress + '/status/single/';
+export const statusUrl = serverAddress + '/status/collection_progress/';
 export const keywordsUrl = serverAddress + '/keywords/collect/';
 export const relevanceMeasuresUrl = serverAddress + '/relevanceMeasures/single/';
 export const getScopusSearchString = serverAddress + '/query/scopusSearchString/';

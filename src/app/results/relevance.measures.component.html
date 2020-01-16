@@ -4,7 +4,7 @@
   <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px"
           label="Start" [routerLink]="['/start']"></button>
   >>
-  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="Query"
+  <button pButton type="button" class="ui-button-success" style="width: 120px; height: 40px" label="QueryOld"
           [routerLink]="['/queries', queryId]"></button>
   >>
   <span *ngFor="let page of resultPages">
@@ -108,7 +108,7 @@
     </div>
     <div class="ui-g-2">
       <button pButton type="button" class="ui-button-danger footer"
-              label="Query page"
+              label="QueryOld page"
               icon="fa-backward"
               [routerLink]="['/results/eids', queryId]"></button>
     </div>
