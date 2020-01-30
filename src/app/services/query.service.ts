@@ -21,7 +21,7 @@ export class QueryService {
   }
 
   getQueryFromXml(queryId: string): Observable<Query> {
-    return this.http.get<Query>(appGlobals.queryUrl + 'single_xml/' + queryId);
+    return this.http.get<Query>(appGlobals.queryUrl + 'single/' + queryId);
   }
 
   saveQueryAsXml(query: Query, queryId: string): Observable<Query> {

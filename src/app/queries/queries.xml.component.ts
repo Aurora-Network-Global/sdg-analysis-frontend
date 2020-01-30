@@ -142,4 +142,8 @@ export class QueriesXmlComponent implements OnInit {
   trackByIndex(index: number, obj: any): any {
     return index;
   }
+
+  removeQueryLine(queryLine: QueryLine, queryDefinition: QueryDefintion) {
+    queryDefinition.query_lines = queryDefinition.query_lines.filter(obj => obj !== queryLine);
+  }
 }
