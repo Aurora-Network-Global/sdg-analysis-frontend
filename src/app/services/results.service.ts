@@ -27,12 +27,5 @@ export class ResultsService {
   calculatePrecision(query_id: string): Observable<RelevanceMeasures> {
     return this.http.get<RelevanceMeasures>(appGlobals.serverAddress + '/relevanceMeasures/getPrecision/' + query_id);
   }
-
-  getSurveyResults(query_id: string): Observable<SurveyResults[]> {
-    return this.http.get<SurveyResults[]>(appGlobals.serverAddress + '/survey_analyzer/import/' + query_id);
-  }
-
-  getSurveyResultsForId(query_id: string, survey_id: string): Observable<SurveyResults[]> {
-    return this.http.get<SurveyResults[]>(appGlobals.serverAddress + '/survey_analyzer/collect/' + query_id + '?survey_id=' + survey_id);
-  }
 }
+

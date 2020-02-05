@@ -16,6 +16,7 @@ import {ClipboardModule, ClipboardService} from 'ngx-clipboard';
 import {MessageService} from 'primeng/components/common/messageservice';
 import {ToastModule} from 'primeng/toast';
 import {SurveyComponent} from './survey.component';
+import {SurveyService} from '../services/survey.service';
 
 @NgModule({
   imports: [
@@ -33,7 +34,7 @@ import {SurveyComponent} from './survey.component';
   resultsRouting],
   declarations: [EidsComponent, RecordsComponent, KeywordsComponent, ScivalComponent, RelevanceMeasuresComponent, SurveyComponent],
   exports: [EidsComponent, RecordsComponent, KeywordsComponent, ScivalComponent, RelevanceMeasuresComponent, SurveyComponent],
-  providers: [EidsService, ClipboardService, MessageService]
+  providers: [EidsService, ClipboardService, MessageService, SurveyService]
 })
 
 export class ResultsModule {}

@@ -9,6 +9,7 @@ export class Project {
   public isEidslist = false;
   public isIndexPresent = false;
   public isScivalData = false;
+  public survey_id = '';
 
   constructor(public name: string,
               public project_id: string) {

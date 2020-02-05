@@ -7,6 +7,7 @@ import {SurveyResults} from '../model/SurveyResults';
 import {KeywordFrequency} from '../model/KeywordFrequency';
 import {ClipboardService} from 'ngx-clipboard';
 import {MessageService} from 'primeng/api';
+import {SurveyService} from '../services/survey.service';
 
 @Component({
   selector: 'app-survey',
@@ -18,7 +19,7 @@ export class SurveyComponent implements OnInit {
 
   public queryId: string;
 
-  public importing = false;
+  public busy = false;
 
   public results: SurveyResults[] = [];
 
@@ -57,7 +58,7 @@ export class SurveyComponent implements OnInit {
               private clipboardService: ClipboardService,
               private messageService: MessageService,
               private projectService: ProjectService,
-              private resultsService: ResultsService) {
+              private surveyService: SurveyService) {
 
   }
 
@@ -77,7 +78,7 @@ export class SurveyComponent implements OnInit {
         } else {
           this.loading = false;
         }
-        this.collectSurveyResponses();
+        this.loadSurveydata();
       }
     );
   }
@@ -86,29 +87,34 @@ export class SurveyComponent implements OnInit {
     this.projectService.getProject(this.queryId).subscribe(
       data => {
         this.projectService.activeProject = data;
+        if (this.surveyId !== '') {
+          this.setSurveyId();
+        }
         this.loading = false;
       }
     );
   }
 
-  collectForSurveyId() {
-    this.importing = false;
-    this.resultsService.getSurveyResultsForId(this.queryId, this.surveyId).subscribe(
+  loadSurveydata() {
+    this.busy = true;
+    this.surveyService.getSurveyResults(this.queryId).subscribe(
       data => {
         this.results = data;
         this.countResults();
-        this.loading = false;
-      });
+        this.busy = false;
+      }
+    );
   }
 
-  collectSurveyResponses() {
-    this.importing = false;
-    this.resultsService.getSurveyResults(this.queryId).subscribe(
+  reloadSurveydata() {
+    this.busy = true;
+    this.surveyService.recollectSurveyResults(this.queryId).subscribe(
       data => {
         this.results = data;
         this.countResults();
-        this.loading = false;
-      });
+        this.busy = false;
+      }
+    );
   }
 
   countResults() {
@@ -180,7 +186,7 @@ export class SurveyComponent implements OnInit {
   copyScopusSearch(eidList: KeywordFrequency[], field: string) {
     let searchString = field + '(';
     eidList.forEach(
-      entry => searchString = searchString + '"' +  entry.keyword + '" OR '
+      entry => searchString = searchString + '"' + entry.keyword + '" OR '
     );
     searchString = searchString.substring(0, searchString.length - 4) + ')';
     this.clipboardService.copyFromContent(searchString);
@@ -189,5 +195,26 @@ export class SurveyComponent implements OnInit {
       summary: 'Search copied',
       detail: 'The Scopus search string was copied to the clipboard'
     });
+  }
+
+  setSurveyId() {
+    this.busy = true;
+     this.surveyService.setSurveyId(this.queryId, this.surveyId).subscribe(
+       () => {
+         this.messageService.add({
+           severity: 'success',
+           summary: 'Survey connected',
+           detail: 'The survey has been successfully connected to the project'
+         });
+         this.projectService.getProject(this.queryId).subscribe(
+           project => this.projectService.activeProject = project
+         );
+         this.surveyService.recollectSurveyResults(this.queryId).subscribe(
+           data => {
+             this.results = data;
+             this.busy = false;
+           }
+         );
+       });
   }
 }

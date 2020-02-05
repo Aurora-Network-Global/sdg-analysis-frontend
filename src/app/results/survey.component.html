@@ -25,21 +25,43 @@
     </div>
     <div class="ui-g-10 ui-g-offset-1">
       <div class="tile">
-        <h2>Upload survey response data</h2>
+        <h2>Connect Survey</h2>
         <div class="centered">
-          <p-fileUpload [disabled]="importing" mode="basic" name="survey-result-file" url="{{uploadUrl}}" accept=".csv"
-                        chooseLabel="Upload" (onBeforeUpload)="importing=true;" [auto]="true"
-                        (onUpload)="collectSurveyResponses()"></p-fileUpload>
-        </div>
-        <h2>Collect by API</h2>
-        <div class="centered">
-          <label for="surveyId">Please type in the survey ID: </label>
+          <p *ngIf="projectService.activeProject.survey_id !== ''">The project is currently connected to the survey with
+            the ID {{projectService.activeProject.survey_id}}</p>
+          <p *ngIf="projectService.activeProject.survey_id !== ''"> If you want to connect the project to another
+            survey, please type in the corresponding ID and press Connect survey</p>
+          <label for="surveyId">Type in the survey ID to connect: </label>
           <input id="surveyId" type="text" pInputText [(ngModel)]="surveyId"/>
-          <button pButton type="button" label="Collect" class="ui-button" (click)="collectForSurveyId()"></button>
+          <button pButton type="button" label="Connect survey" class="ui-button" (click)="setSurveyId()"></button>
         </div>
       </div>
     </div>
-    <div *ngIf="results.length > 0" class="ui-g-10 ui-g-offset-1">
+    <div *ngIf="projectService.activeProject.survey_id !== ''" class="ui-g-10 ui-g-offset-1">
+      <div class="ui-g">
+        <div class="ui-g-6">
+          <div class="tile">
+            <h2>Load survey</h2>
+            <p>Load the data collected previously.</p>
+            <div class="centered">
+              <button [disabled]="busy" pButton type="button" label="Load survey data" class="ui-button"
+                      (click)="loadSurveydata()"></button>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-6">
+          <div class="tile">
+            <h2>Recollect survey data</h2>
+            <p>(Re)Collect the data from the survey platform.</p>
+            <div class="centered">
+              <button [disabled]="busy" pButton type="button" label="Recollect data" class="ui-button"
+                      (click)="reloadSurveydata()"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="results.length > 0 && !busy" class="ui-g-10 ui-g-offset-1">
       <div class="tile">
         <div class="ui-g">
           <div class="ui-g-12">
@@ -59,11 +81,14 @@
           </div>
           <div class="ui-g-6">
             <h2>Selected journals</h2>
-            <p-table [value]="selectedJournalList" [paginator]="true" [rows]="10" selectionMode="multiple" [(selection)]="selectedJournalsSelection">
+            <p-table [value]="selectedJournalList" [paginator]="true" [rows]="10" selectionMode="multiple"
+                     [(selection)]="selectedJournalsSelection">
               <ng-template pTemplate="caption">
                 <div class="ui-helper-clearfix">
-                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox> Select All
-                  <button style="float: left;" class="ui-button-success" type="button" pButton (click)="copyScopusSearch(selectedJournalsSelection, 'SRCTITLE')"
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                  Select All
+                  <button style="float: left;" class="ui-button-success" type="button" pButton
+                          (click)="copyScopusSearch(selectedJournalsSelection, 'SRCTITLE')"
                           label="Copy Scopus search" icon="pi pi-table"></button>
                 </div>
               </ng-template>
@@ -83,11 +108,14 @@
           </div>
           <div class="ui-g-6">
             <h2>Selected keywords</h2>
-            <p-table [value]="selectedKeywordList" [paginator]="true" [rows]="10" selectionMode="multiple" [(selection)]="selectedKeywordsSelection">
+            <p-table [value]="selectedKeywordList" [paginator]="true" [rows]="10" selectionMode="multiple"
+                     [(selection)]="selectedKeywordsSelection">
               <ng-template pTemplate="caption">
                 <div class="ui-helper-clearfix">
-                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox> Select All
-                  <button style="float: left;" class="ui-button-success" type="button" pButton (click)="copyScopusSearch(selectedKeywordsSelection, 'TITLE-ABS-KEY')"
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                  Select All
+                  <button style="float: left;" class="ui-button-success" type="button" pButton
+                          (click)="copyScopusSearch(selectedKeywordsSelection, 'TITLE-ABS-KEY')"
                           label="Copy Scopus search" icon="pi pi-table"></button>
                 </div>
               </ng-template>
@@ -107,11 +135,14 @@
           </div>
           <div class="ui-g-6">
             <h2>Rejected articles</h2>
-            <p-table [value]="rejectedArticleList" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]" selectionMode="multiple" [(selection)]="selectedRejectedArticles">
+            <p-table [value]="rejectedArticleList" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]"
+                     selectionMode="multiple" [(selection)]="selectedRejectedArticles">
               <ng-template pTemplate="caption">
                 <div class="ui-helper-clearfix">
-                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox> Select All
-                  <button style="float: left;" class="ui-button-success" type="button" pButton (click)="copyScopusSearch(selectedRejectedArticles, 'EID')"
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                  Select All
+                  <button style="float: left;" class="ui-button-success" type="button" pButton
+                          (click)="copyScopusSearch(selectedRejectedArticles, 'EID')"
                           label="Copy Scopus search" icon="pi pi-table"></button>
                 </div>
               </ng-template>
@@ -133,11 +164,14 @@
           </div>
           <div class="ui-g-6">
             <h2>Accepted articles</h2>
-            <p-table [value]="acceptedArticlelList" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]" selectionMode="multiple" [(selection)]="selectedAcceptedArticles">
+            <p-table [value]="acceptedArticlelList" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]"
+                     selectionMode="multiple" [(selection)]="selectedAcceptedArticles">
               <ng-template pTemplate="caption">
                 <div class="ui-helper-clearfix">
-                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox> Select All
-                  <button style="float: left;" class="ui-button-success" type="button" pButton (click)="copyScopusSearch(selectedAcceptedArticles, 'EID')"
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                  Select All
+                  <button style="float: left;" class="ui-button-success" type="button" pButton
+                          (click)="copyScopusSearch(selectedAcceptedArticles, 'EID')"
                           label="Copy Scopus search" icon="pi pi-table"></button>
                 </div>
               </ng-template>
