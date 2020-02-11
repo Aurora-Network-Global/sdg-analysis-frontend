@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ProjectService} from '../services/project.service';
-import {ResultsService} from '../services/results.service';
 import * as appGlobals from '../app.globals';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {SurveyResults} from '../model/SurveyResults';
@@ -25,9 +24,27 @@ export class SurveyComponent implements OnInit {
 
   public surveyId = '';
 
+  public journalCols: any[];
+
+  public keywordCols: any[];
+
+  public articleCols: any[];
+
+  public suggestedKeywordList: KeywordFrequency[] = [];
+
+  public suggestedJournalList: KeywordFrequency[] = [];
+
+  public suggestedKeywordSelection: KeywordFrequency[] = [];
+
+  public suggestedJournalSelection: KeywordFrequency[] = [];
+
   public selectedKeywordList: KeywordFrequency[] = [];
 
   public selectedJournalList: KeywordFrequency[] = [];
+
+  public unselectedKeywordList: KeywordFrequency[] = [];
+
+  public unselectedJournalList: KeywordFrequency[] = [];
 
   public acceptedArticlelList: KeywordFrequency[] = [];
 
@@ -41,11 +58,11 @@ export class SurveyComponent implements OnInit {
 
   public selectedKeywordsSelection: KeywordFrequency[];
 
+  public unselectedJournalsSelection: KeywordFrequency[];
+
+  public unselectedKeywordsSelection: KeywordFrequency[];
+
   public acceptedArticles: Map<string, number> = new Map<string, number>();
-
-  public selectedKeywords: Map<string, number> = new Map<string, number>();
-
-  public selectedJournals: Map<string, number> = new Map<string, number>();
 
   public rejectedArticles: Map<string, number> = new Map<string, number>();
 
@@ -63,6 +80,18 @@ export class SurveyComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.journalCols = [
+      { field: 'keyword', header: 'Journal' },
+      { field: 'count', header: 'Count' }
+    ];
+    this.keywordCols = [
+      { field: 'keyword', header: 'Keyword' },
+      { field: 'count', header: 'Count' }
+    ];
+    this.articleCols = [
+      { field: 'keyword', header: 'Article' },
+      { field: 'count', header: 'Count' }
+    ];
     this.loading = true;
     this.route.params.subscribe(
       params => {
@@ -118,6 +147,14 @@ export class SurveyComponent implements OnInit {
   }
 
   countResults() {
+    this.acceptedArticles = new Map<string, number>();
+    this.rejectedArticles = new Map<string, number>();
+    const allSuggestedKeywords = [];
+    const allSuggestedJournals = [];
+    const allSelectedKeywords = [];
+    const allUnselectedKeywords = [];
+    const allSelectedJournals = [];
+    const allUnselectedJournals = [];
     this.results.forEach(
       result => {
         result.judgements.forEach(
@@ -143,38 +180,30 @@ export class SurveyComponent implements OnInit {
             }
           }
         );
-        result.selected_journals.forEach(
-          journal => {
-            let count;
-            if (this.selectedJournals.has(journal)) {
-              count = this.selectedJournals.get(journal);
-              count = count + 1;
-            } else {
-              count = 1;
-            }
-            this.selectedJournals.set(journal, count);
-          }
-        );
-        result.selected_keywords.forEach(
-          keyword => {
-            let count;
-            if (this.selectedKeywords.has(keyword)) {
-              count = this.selectedKeywords.get(keyword);
-              count = count + 1;
-            } else {
-              count = 1;
-            }
-            this.selectedKeywords.set(keyword, count);
-          }
-        );
+        allSuggestedKeywords.push(...result.suggested_keywords);
+        allSuggestedJournals.push(...result.suggested_journals);
+        allSelectedKeywords.push(...result.selected_keywords);
+        allUnselectedKeywords.push(...result.unselected_keywords);
+        allSelectedJournals.push(...result.selected_journals);
+        allUnselectedJournals.push(...result.unselected_journals);
       }
     );
-    this.selectedJournals.forEach(
-      (entry, key) => this.selectedJournalList.push(new KeywordFrequency(entry, key))
-    );
-    this.selectedKeywords.forEach(
-      (entry, key) => this.selectedKeywordList.push(new KeywordFrequency(entry, key))
-    );
+    console.log(allUnselectedKeywords.length);
+
+    this.selectedKeywordList = this.buildStatistics(allSelectedKeywords);
+    this.selectedJournalList = this.buildStatistics(allSelectedJournals);
+    this.unselectedKeywordList = this.buildStatistics(allUnselectedKeywords);
+    this.unselectedJournalList = this.buildStatistics(allUnselectedJournals);
+    this.suggestedJournalList = this.buildStatistics(allSuggestedJournals);
+    this.suggestedKeywordList = this.buildStatistics(allSuggestedKeywords);
+    this.acceptedArticlelList = [];
+    this.rejectedArticleList = [];
+    this.selectedRejectedArticles = [];
+    this.selectedAcceptedArticles = [];
+    this.selectedJournalsSelection = [];
+    this.selectedKeywordsSelection = [];
+    this.unselectedJournalsSelection = [];
+    this.unselectedKeywordsSelection = [];
     this.rejectedArticles.forEach(
       (entry, key) => this.rejectedArticleList.push(new KeywordFrequency(entry, key))
     );
@@ -182,6 +211,26 @@ export class SurveyComponent implements OnInit {
       (entry, key) => this.acceptedArticlelList.push(new KeywordFrequency(entry, key))
     );
   }
+
+  buildStatistics(list: string[]) {
+    const frequencyList = [];
+    const map = new Map<string, number>();
+    list.forEach(
+      entry => {
+        let count;
+        if (map.has(entry)) {
+          count = map.get(entry);
+          count = count + 1;
+          map.set(entry, count);
+        } else {
+          map.set(entry, 1);
+        }
+      }
+    );
+    map.forEach((entry, key) => frequencyList.push(new KeywordFrequency(entry, key)));
+    return frequencyList;
+  }
+
 
   copyScopusSearch(eidList: KeywordFrequency[], field: string) {
     let searchString = field + '(';
@@ -199,22 +248,22 @@ export class SurveyComponent implements OnInit {
 
   setSurveyId() {
     this.busy = true;
-     this.surveyService.setSurveyId(this.queryId, this.surveyId).subscribe(
-       () => {
-         this.messageService.add({
-           severity: 'success',
-           summary: 'Survey connected',
-           detail: 'The survey has been successfully connected to the project'
-         });
-         this.projectService.getProject(this.queryId).subscribe(
-           project => this.projectService.activeProject = project
-         );
-         this.surveyService.recollectSurveyResults(this.queryId).subscribe(
-           data => {
-             this.results = data;
-             this.busy = false;
-           }
-         );
-       });
+    this.surveyService.setSurveyId(this.queryId, this.surveyId).subscribe(
+      () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Survey connected',
+          detail: 'The survey has been successfully connected to the project'
+        });
+        this.projectService.getProject(this.queryId).subscribe(
+          project => this.projectService.activeProject = project
+        );
+        this.surveyService.recollectSurveyResults(this.queryId).subscribe(
+          data => {
+            this.results = data;
+            this.busy = false;
+          }
+        );
+      });
   }
 }

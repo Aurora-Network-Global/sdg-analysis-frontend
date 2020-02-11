@@ -9,7 +9,7 @@ export class SurveyResults {
     public selected_keywords: string[],
     public unselected_journals: string[],
     public selected_journals: string[],
-    public suggested_journals: string,
-    public suggested_keywords: string
+    public suggested_journals: string[],
+    public suggested_keywords: string[]
   ) {}
 }
