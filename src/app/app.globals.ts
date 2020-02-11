@@ -1,7 +1,7 @@
 import {HttpHeaders} from '@angular/common/http';
 
-// export const serverAddress = '/queryExecution';
-export const serverAddress = 'http://localhost:5000';
+export const serverAddress = '/queryExecution';
+// export const serverAddress = 'http://localhost:5000';
 
 export const resultsPages = [{
   key: 'eids',
