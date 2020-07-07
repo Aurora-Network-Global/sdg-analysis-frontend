@@ -178,7 +178,7 @@
       <div class="tile ui-fluid">
         <h3 *ngIf="query.query_definitions.query_filters">Global Filters</h3>
         <p>These filters apply to the whole query.</p>
-        <div *ngIf="query.query_definitions.query_filters">
+        <div *ngIf="query.query_definitions.query_filters.timerange">
           <div class="ui-g">
             <div class="ui-g-2">
               <b>Filter</b>
