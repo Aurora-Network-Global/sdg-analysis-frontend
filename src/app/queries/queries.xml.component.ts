@@ -25,7 +25,9 @@ export class QueriesXmlComponent implements OnInit {
 
   public loading: boolean;
 
-  public uploadUrl;
+  public uploadUrl: string;
+
+  public downloadUrl: string;
 
   public progress: number;
 
@@ -62,7 +64,7 @@ export class QueriesXmlComponent implements OnInit {
       params => {
         this.queryId = params['queryId'];
         this.uploadUrl = appGlobals.serverAddress + '/query/save_xml_upload/' + this.queryId;
-        console.log(this.uploadUrl);
+        this.downloadUrl = appGlobals.serverAddress + '/query/xml_file/' + this.queryId;
         if (this.projectService.activeProject == null) {
           this.projectService.getProject(this.queryId).subscribe(
             data => {

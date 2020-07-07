@@ -25,19 +25,20 @@
     <div class="ui-g-10 ui-g-offset-1">
       <div class="tile">
         <div style="padding: 15px;">
-        <p class="description" >
+          <p class="description">
           <textarea id="topic" [rows]="3" [cols]="30" pInputTextarea [(ngModel)]="query.description"
                     autoResize="autoResize" class="form-tile"></textarea>
-        </p>
-        <div class="ui-g">
-          <div class="ui-g-3">
-            <p>Last updated: {{query.date_modified}}</p>
+          </p>
+          <div class="ui-g">
+            <div class="ui-g-3">
+              <p>Last updated: {{query.date_modified}}</p>
+            </div>
+            <div class="ui-g-6"></div>
+            <div class="ui-g-3">
+              <p-dropdown [options]="syntaxOptions" [(ngModel)]="query.query_definitions.syntax"
+                          placeholder="Select a Query Syntax" class="form-tile"></p-dropdown>
+            </div>
           </div>
-          <div class="ui-g-6"></div>
-          <div class="ui-g-3">
-            <p-dropdown [options]="syntaxOptions" [(ngModel)]="query.query_definitions.syntax" placeholder="Select a Query Syntax" class="form-tile"></p-dropdown>
-          </div>
-        </div>
         </div>
       </div>
     </div>
@@ -175,10 +176,9 @@
     </div>
     <div class="ui-g-10 ui-g-offset-1">
       <div class="tile ui-fluid">
-        <h3 *ngIf="query.query_definitions.query_filters" (click)="toggleShow('globalFilters')">Global Filters
-          <i [ngClass]="show['globalFilters'] ? 'pi pi-caret-down' : 'pi pi-caret-right'"></i></h3>
+        <h3 *ngIf="query.query_definitions.query_filters">Global Filters</h3>
         <p>These filters apply to the whole query.</p>
-        <div *ngIf="query.query_definitions.query_filters && show['globalFilters']">
+        <div *ngIf="query.query_definitions.query_filters">
           <div class="ui-g">
             <div class="ui-g-2">
               <b>Filter</b>
@@ -198,7 +198,8 @@
             </div>
             <div class="ui-g-2">
               <p>
-                <input type="text" pInputText [(ngModel)]="query.query_definitions.query_filters.timerange.field" class="form-tile"/>
+                <input type="text" pInputText [(ngModel)]="query.query_definitions.query_filters.timerange.field"
+                       class="form-tile"/>
               </p>
             </div>
             <div class="ui-g-1">
@@ -208,7 +209,8 @@
             </div>
             <div class="ui-g-2">
               <p>
-                <input type="text" pInputText [(ngModel)]="query.query_definitions.query_filters.timerange.start" class="form-tile"/>
+                <input type="text" pInputText [(ngModel)]="query.query_definitions.query_filters.timerange.start"
+                       class="form-tile"/>
               </p>
             </div>
             <div class="ui-g-1">
@@ -218,13 +220,15 @@
             </div>
             <div class="ui-g-2">
               <p>
-                <input type="text" pInputText [(ngModel)]="query.query_definitions.query_filters.timerange.end" class="form-tile"/>
+                <input type="text" pInputText [(ngModel)]="query.query_definitions.query_filters.timerange.end"
+                       class="form-tile"/>
               </p>
             </div>
           </div>
           <div *ngFor="let filter of query.query_definitions.query_filters.query_filters" class="ui-g">
             <div class="ui-g-2">
-              <p-dropdown [options]="filterTypeOptions" [(ngModel)]="filter.filter_type" placeholder="Select a Query Syntax" class="form-tile"></p-dropdown>
+              <p-dropdown [options]="filterTypeOptions" [(ngModel)]="filter.filter_type"
+                          placeholder="Select a Query Syntax" class="form-tile"></p-dropdown>
             </div>
             <div class="ui-g-2">
               <input type="text" pInputText [(ngModel)]="filter.filter_field" class="form-tile"/>
@@ -244,48 +248,58 @@
     </div>
     <div class="ui-g-10 ui-g-offset-1">
       <div class="tile">
-        <h2>Upload XML Query File</h2>
-        <div class="centered">
-          <p-fileUpload mode="basic" name="query_xml" url="{{uploadUrl}}" accept=".xml"
-                        (onUpload)="loadXmlQuery()" chooseLabel="Upload" auto="true"></p-fileUpload>
+        <h2>XML Query File</h2>
+        <div class="ui-g">
+          <div class="ui-g-6">
+            <div class="centered">
+              <p-fileUpload mode="basic" name="query_xml" url="{{uploadUrl}}" accept=".xml"
+                            (onUpload)="loadXmlQuery()" chooseLabel="Upload" auto="true"></p-fileUpload>
+            </div>
+          </div>
+          <div class="ui-g-6">
+            <div class="centered">
+              <a href="{{downloadUrl}}" target="_blank">
+                <button pButton type="button" label="Download XML File"></button>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
-  </div>
-</div>
-</div>
-
-
-<footer *ngIf="!loading" class="footer">
-  <div class="ui-g">
-    <div class="ui-g-2">
-      <h3>Actions:</h3>
-    </div>
-    <div class="ui-g-2">
-      <button pButton type="button" class="ui-button-danger footer"
-              label="Start"
-              icon="fa-backward"
-              [routerLink]="['/start']"></button>
-    </div>
-    <div class="ui-g-2">
-      <button pButton type="button" class="ui-button-danger footer" label="Save" icon="fa-save"
-              (click)="save()"></button>
-    </div>
-    <div class="ui-g-2">
-      <button [disabled]="!projectService.activeProject.isQueryDefined" pButton type="button"
-              class="ui-button ui-button-danger footer" label="Copy Scopus search" icon="fa-run"
-              (click)="copySearchString('scopus')"></button>
-    </div>
-    <div class="ui-g-2">
-      <button pButton type="button" class="ui-button-danger footer"
-              label="Upload Facettes"
-              icon="fa-forward"
-              [routerLink]="['/facettes', queryId]"></button>
-    </div>
-    <div class="ui-g-2">
-      <button pButton type="button" class="ui-button-danger footer"
-              label="To EIDs"
-              icon="fa-forward"
-              [routerLink]="['/results/eids', queryId]"></button>
     </div>
   </div>
-</footer>
+</div>
+
+  <footer *ngIf="!loading" class="footer">
+    <div class="ui-g">
+      <div class="ui-g-2">
+        <h3>Actions:</h3>
+      </div>
+      <div class="ui-g-2">
+        <button pButton type="button" class="ui-button-danger footer"
+                label="Start"
+                icon="fa-backward"
+                [routerLink]="['/start']"></button>
+      </div>
+      <div class="ui-g-2">
+        <button pButton type="button" class="ui-button-danger footer" label="Save" icon="fa-save"
+                (click)="save()"></button>
+      </div>
+      <div class="ui-g-2">
+        <button [disabled]="!projectService.activeProject.isQueryDefined" pButton type="button"
+                class="ui-button ui-button-danger footer" label="Copy Scopus search" icon="fa-run"
+                (click)="copySearchString('scopus')"></button>
+      </div>
+      <div class="ui-g-2">
+        <button pButton type="button" class="ui-button-danger footer"
+                label="Upload Facettes"
+                icon="fa-forward"
+                [routerLink]="['/facettes', queryId]"></button>
+      </div>
+      <div class="ui-g-2">
+        <button pButton type="button" class="ui-button-danger footer"
+                label="To EIDs"
+                icon="fa-forward"
+                [routerLink]="['/results/eids', queryId]"></button>
+      </div>
+    </div>
+  </footer>
