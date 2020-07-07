@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {QueriesComponent} from './queries.component';
 import {FileUploadModule} from 'primeng/fileupload';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {InputTextModule} from 'primeng/inputtext';
@@ -29,8 +28,8 @@ import {DropdownModule} from 'primeng/dropdown';
     queriesRouting,
     ToastModule
   ],
-  declarations: [QueriesComponent, QueriesXmlComponent],
-  exports: [QueriesComponent, QueriesXmlComponent],
+  declarations: [QueriesXmlComponent],
+  exports: [QueriesXmlComponent],
   providers: [ClipboardService]
 })
 

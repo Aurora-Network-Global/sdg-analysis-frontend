@@ -25,6 +25,8 @@ export class QueriesXmlComponent implements OnInit {
 
   public loading: boolean;
 
+  public uploadUrl;
+
   public progress: number;
 
   public show: object = {};
@@ -59,6 +61,8 @@ export class QueriesXmlComponent implements OnInit {
     this.route.params.subscribe(
       params => {
         this.queryId = params['queryId'];
+        this.uploadUrl = appGlobals.serverAddress + '/query/save_xml_upload/' + this.queryId;
+        console.log(this.uploadUrl);
         if (this.projectService.activeProject == null) {
           this.projectService.getProject(this.queryId).subscribe(
             data => {
@@ -66,17 +70,7 @@ export class QueriesXmlComponent implements OnInit {
             }
           );
         }
-        this.fileservice.getQueryFromXml(this.queryId).subscribe(
-          data => {
-            this.query = data;
-            this.loading = false;
-          },
-          error => {
-            const queryDefintions = new QueryDefintions([], new QueryFilters([], new Timerange('', '', '')), 'SCOPUS');
-            this.query = new Query('', '1', '', '', '', new Date().toISOString().slice(0, 10), '', '', queryDefintions);
-            this.loading = false;
-          }
-        );
+        this.loadXmlQuery();
       }
     );
   }
@@ -91,6 +85,20 @@ export class QueriesXmlComponent implements OnInit {
           this.projectService.activeProject.isQueryDefined = true;
           this.saveProject();
         }
+      }
+    );
+  }
+
+  loadXmlQuery() {
+    this.fileservice.getQueryFromXml(this.queryId).subscribe(
+      data => {
+        this.query = data;
+        this.loading = false;
+      },
+      error => {
+        const queryDefintions = new QueryDefintions([], new QueryFilters([], new Timerange('', '', '')), 'SCOPUS');
+        this.query = new Query('', '1', '', '', '', new Date().toISOString().slice(0, 10), '', '', queryDefintions);
+        this.loading = false;
       }
     );
   }

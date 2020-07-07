@@ -242,7 +242,16 @@
         </div>
       </div>
     </div>
+    <div class="ui-g-10 ui-g-offset-1">
+      <div class="tile">
+        <h2>Upload XML Query File</h2>
+        <div class="centered">
+          <p-fileUpload mode="basic" name="query_xml" url="{{uploadUrl}}" accept=".xml"
+                        (onUpload)="loadXmlQuery()" chooseLabel="Upload" auto="true"></p-fileUpload>
+        </div>
+      </div>
   </div>
+</div>
 </div>
 
 
