@@ -6,6 +6,7 @@ import * as appGlobals from '../app.globals';
 import {RunnerService} from '../services/runner.service';
 import {Status} from '../model/Status';
 import {interval} from 'rxjs/internal/observable/interval';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-records',
@@ -21,7 +22,9 @@ export class RecordsComponent implements OnInit {
 
   isCollecting = false;
 
-  private timer: any;
+  private timer = interval(2000);
+
+  private subscription: any;
 
   status: Status;
 
@@ -33,7 +36,8 @@ export class RecordsComponent implements OnInit {
               private router: Router,
               public projectService: ProjectService,
               private resultsService: ResultsService,
-              private runnerService: RunnerService) {
+              private runnerService: RunnerService,
+              private messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -48,7 +52,7 @@ export class RecordsComponent implements OnInit {
               this.loading = false;
               if (this.projectService.activeProject.isDataCollecting) {
                 this.getStatus();
-                this.timer = interval(2000).subscribe(() => {
+                this.subscription = interval(2000).subscribe(() => {
                   this.getStatus();
                 });
               } else if (this.projectService.activeProject.isDataCollected) {
@@ -77,13 +81,13 @@ export class RecordsComponent implements OnInit {
         this.progress = 0;
       }
       if (this.status.status === 'DATA_COLLECTED') {
-        this.timer.unsubscribe();
+        this.subscription.unsubscribe();
         this.isCollecting = false;
         this.projectService.activeProject.isDataCollected = true;
         this.projectService.activeProject.isDataCollecting = false;
         this.saveProject();
       } else if (this.status.status === 'ERROR') {
-        this.timer.unsubscribe();
+        this.subscription.unsubscribe();
         this.isCollecting = false;
       }
     }
@@ -101,8 +105,25 @@ export class RecordsComponent implements OnInit {
 
   collectData() {
     this.isCollecting = true;
-    this.runnerService.collectData(this.queryId).subscribe();
-    this.timer = interval(2000).subscribe(() => {
+    this.runnerService.collectData(this.queryId).subscribe(
+      data => {
+        this.subscription.unsubscribe();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Collection finished',
+          detail: 'The Scopus record collection has finished, all records have been collected.'
+        });
+      },
+      error => {
+        this.subscription.unsubscribe();
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Collection aborted',
+          detail: 'The Scopus record collection was aborted'
+        });
+      }
+      );
+    this.subscription = this.timer.subscribe(() => {
       this.getStatus();
     });
   }

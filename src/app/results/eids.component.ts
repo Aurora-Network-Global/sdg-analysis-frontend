@@ -22,9 +22,11 @@ export class EidsComponent implements OnInit {
 
   sampleSize = 100;
 
-  private timer: any;
-
   isQueryRunning = false;
+
+  private timer = interval(2000);
+
+  private subscription: any;
 
   eidsUrl = appGlobals.serverAddress + '/eids';
 
@@ -61,7 +63,7 @@ export class EidsComponent implements OnInit {
         if (this.projectService.activeProject.isEidsCollected) {
           this.isQueryRunning = false;
           if (this.timer) {
-            this.timer.unsubscribe();
+            this.subscription.unsubscribe();
           }
         }
       }
@@ -90,8 +92,25 @@ export class EidsComponent implements OnInit {
 
   runQuery() {
     this.isQueryRunning = true;
-    this.runnerService.runQuery(this.queryId).subscribe();
-    this.timer = interval(2000).subscribe(() => {
+    this.runnerService.runQuery(this.queryId).subscribe(
+      data => {
+        this.timer = this.subscription.unsubscribe();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Search finidhed',
+          detail: 'The Scopus search has finished, all EIDs have been collected.'
+        });
+      },
+      error => {
+        this.timer = this.subscription.unsubscribe();
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Search aborted',
+          detail: 'The Scopus search was aborted'
+        });
+      }
+    );
+    this.subscription = this.timer.subscribe(() => {
       this.updateProject();
     });
   }
