@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import * as appGlobals from '../app.globals';
 import {ProjectService} from '../services/project.service';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-queries',
@@ -24,7 +25,7 @@ export class FacettesComponent implements OnInit {
     this.route.params.subscribe(
       params => {
         this.queryId = params['queryId'];
-        this.uploadUrlJournals =  appGlobals.serverAddress + '/facettes/upload/' + this.queryId;
+        this.uploadUrlJournals =  environment.serverAddress + '/facettes/upload/' + this.queryId;
         if (this.projectService.activeProject == null) {
           this.projectService.getProject(this.queryId).subscribe(
             data => {

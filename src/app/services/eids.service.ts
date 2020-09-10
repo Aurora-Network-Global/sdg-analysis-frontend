@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import * as appGlobals from '../app.globals';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class EidsService {
 
-  eidsUrl = appGlobals.serverAddress + '/eids';
+  eidsUrl = environment.serverAddress + '/eids';
 
   constructor(private http: HttpClient) {
   }

@@ -7,6 +7,7 @@ import {KeywordFrequency} from '../model/KeywordFrequency';
 import {ClipboardService} from 'ngx-clipboard';
 import {MessageService} from 'primeng/api';
 import {SurveyService} from '../services/survey.service';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-survey',
@@ -66,7 +67,7 @@ export class SurveyComponent implements OnInit {
 
   public rejectedArticles: Map<string, number> = new Map<string, number>();
 
-  private uploadUrl = appGlobals.serverAddress + '/survey_analyzer/upload/';
+  private uploadUrl = environment.serverAddress + '/survey_analyzer/upload/';
 
   resultPages = appGlobals.resultsPages;
 

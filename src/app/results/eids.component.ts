@@ -7,6 +7,7 @@ import {EidsService} from '../services/eids.service';
 import {interval} from 'rxjs/internal/observable/interval';
 import {ClipboardService} from 'ngx-clipboard';
 import {MessageService} from 'primeng/api';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-eids',
@@ -28,7 +29,7 @@ export class EidsComponent implements OnInit {
 
   private subscription: any;
 
-  eidsUrl = appGlobals.serverAddress + '/eids';
+  eidsUrl = environment.serverAddress + '/eids';
 
   constructor(private route: ActivatedRoute,
               public projectService: ProjectService,

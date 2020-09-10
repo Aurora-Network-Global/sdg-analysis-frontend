@@ -4,6 +4,7 @@ import {ProjectService} from '../services/project.service';
 import {ResultsService} from '../services/results.service';
 import {KeywordFrequency} from '../model/KeywordFrequency';
 import * as appGlobals from '../app.globals';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-scival',
@@ -35,7 +36,7 @@ export class ScivalComponent implements OnInit {
     this.route.params.subscribe(
       params => {
         this.queryId = params['queryId'];
-        this.uploadUrl =  appGlobals.serverAddress + '/scival/single/' + this.queryId;
+        this.uploadUrl =  environment.serverAddress + '/scival/single/' + this.queryId;
         if (this.projectService.activeProject == null) {
           this.updateProject();
         } else {

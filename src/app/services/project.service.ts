@@ -4,13 +4,14 @@ import {HttpClient} from '@angular/common/http';
 import * as appGlobals from '../app.globals';
 import {Project} from '../model/Project';
 import {map} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class ProjectService {
 
   public activeProject: Project;
 
-  private projectUrl = appGlobals.serverAddress + '/project';
+  private projectUrl = environment.serverAddress + '/project';
 
   constructor(private http: HttpClient) {
   }

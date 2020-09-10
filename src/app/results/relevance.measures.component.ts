@@ -5,6 +5,7 @@ import * as appGlobals from '../app.globals';
 import {ActivatedRoute} from '@angular/router';
 import {ResultsService} from '../services/results.service';
 import {RelevanceMeasures} from '../model/RelevanceMeasures';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-relevance-measures',
@@ -39,8 +40,8 @@ export class RelevanceMeasuresComponent implements OnInit {
         } else {
           this.loading = false;
         }
-        this.testUploadUrl = appGlobals.serverAddress + '/eids/test/' + this.queryId;
-        this.sampleUploadUrl = appGlobals.serverAddress + '/eids/sample-judgement/' + this.queryId;
+        this.testUploadUrl = environment.serverAddress + '/eids/test/' + this.queryId;
+        this.sampleUploadUrl = environment.serverAddress + '/eids/sample-judgement/' + this.queryId;
         this.resultsService.getRelevanceMeasures(this.queryId).subscribe(
           data => this.relevanceMeasure = data,
           error => console.log('no relevance measures found')

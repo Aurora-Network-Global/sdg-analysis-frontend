@@ -12,6 +12,7 @@ import {QueryFilter} from '../model/QueryFilter';
 import {QueryDefintions} from '../model/QueryDefinitions';
 import {QueryFilters} from '../model/QueryFilters';
 import {Timerange} from '../model/Timerange';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-queries-xml',
@@ -63,8 +64,8 @@ export class QueriesXmlComponent implements OnInit {
     this.route.params.subscribe(
       params => {
         this.queryId = params['queryId'];
-        this.uploadUrl = appGlobals.serverAddress + '/query/save_xml_upload/' + this.queryId;
-        this.downloadUrl = appGlobals.serverAddress + '/query/xml_file/' + this.queryId;
+        this.uploadUrl = environment.serverAddress + '/query/save_xml_upload/' + this.queryId;
+        this.downloadUrl = environment.serverAddress + '/query/xml_file/' + this.queryId;
         if (this.projectService.activeProject == null) {
           this.projectService.getProject(this.queryId).subscribe(
             data => {

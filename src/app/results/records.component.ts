@@ -7,6 +7,7 @@ import {RunnerService} from '../services/runner.service';
 import {Status} from '../model/Status';
 import {interval} from 'rxjs/internal/observable/interval';
 import {MessageService} from 'primeng/api';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-records',
@@ -18,7 +19,7 @@ export class RecordsComponent implements OnInit {
 
   loading: boolean;
 
-  eidsUrl = appGlobals.serverAddress + '/eids';
+  eidsUrl = environment.serverAddress + '/eids';
 
   isCollecting = false;
 
