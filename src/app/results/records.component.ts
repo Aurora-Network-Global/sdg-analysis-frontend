@@ -128,4 +128,29 @@ export class RecordsComponent implements OnInit {
       this.getStatus();
     });
   }
+
+  collectMissingData() {
+    this.isCollecting = true;
+    this.runnerService.collectMissingData(this.queryId).subscribe(
+      data => {
+        this.subscription.unsubscribe();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Collection finished',
+          detail: 'The Scopus record collection has finished, all records have been collected.'
+        });
+      },
+      error => {
+        this.subscription.unsubscribe();
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Collection aborted',
+          detail: 'The Scopus record collection was aborted'
+        });
+      }
+    );
+    this.subscription = this.timer.subscribe(() => {
+      this.getStatus();
+    });
+  }
 }

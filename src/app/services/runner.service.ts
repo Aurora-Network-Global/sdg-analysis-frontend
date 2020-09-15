@@ -24,4 +24,8 @@ export class RunnerService {
   collectData(queryId: string): Observable<string> {
     return this.http.post<string>(environment.serverAddress + '/collect_data/' + queryId, {}, {headers: appGlobals.headers});
   }
+
+  collectMissingData(queryId: string): Observable<string> {
+    return this.http.post<string>(environment.serverAddress + '/collect_data/' + queryId + '?mode=missed_', {}, {headers: appGlobals.headers});
+  }
 }

@@ -71,6 +71,9 @@
               (click)="collectData()"></button>
     </div>
     <div class="ui-g-4">
+      <button [disabled]="!projectService.activeProject.isEidsCollected" pButton type="button"
+              class="ui-button-danger footer" label="Collect missing data" icon="fa-forward"
+              (click)="collectMissingData()"></button>
     </div>
     <div class="ui-g-2">
        <button pButton type="button" class="ui-button-danger footer"
