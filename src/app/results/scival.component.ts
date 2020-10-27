@@ -18,17 +18,13 @@ export class ScivalComponent implements OnInit {
 
   uploadUrl: string;
 
-  keywordFrequencyList: KeywordFrequency[];
-
   resultPages = appGlobals.resultsPages;
 
   importing = false;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
-    public projectService: ProjectService,
-    private resultsService: ResultsService) {
+    public projectService: ProjectService) {
   }
 
   ngOnInit(): void {
@@ -42,10 +38,6 @@ export class ScivalComponent implements OnInit {
         } else {
           this.loading = false;
         }
-        this.resultsService.getKeywords(this.queryId).subscribe(
-          data => this.keywordFrequencyList = data,
-          error => console.log('no keywords found')
-        );
       }
     );
   }
