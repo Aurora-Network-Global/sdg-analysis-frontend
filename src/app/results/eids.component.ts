@@ -98,7 +98,7 @@ export class EidsComponent implements OnInit {
         this.timer = this.subscription.unsubscribe();
         this.messageService.add({
           severity: 'success',
-          summary: 'Search finidhed',
+          summary: 'Search finished',
           detail: 'The Scopus search has finished, all EIDs have been collected.'
         });
       },
@@ -106,8 +106,8 @@ export class EidsComponent implements OnInit {
         this.timer = this.subscription.unsubscribe();
         this.messageService.add({
           severity: 'error',
-          summary: 'Search aborted',
-          detail: 'The Scopus search was aborted'
+          summary: 'Search error',
+          detail: 'An error occurred. This might be just due to a timeout. Please check the list of IDs from time to time.'
         });
       }
     );
